@@ -98,7 +98,7 @@ export function AddAgentDialog({
               />
             </Field>
 
-            <Field>
+            {/* <Field>
               <FieldLabel htmlFor="agent-email">Email</FieldLabel>
               <Input
                 id="agent-email"
@@ -106,7 +106,7 @@ export function AddAgentDialog({
                 type="email"
                 placeholder="Optional"
               />
-            </Field>
+            </Field> */}
 
             <Field>
               <FieldLabel htmlFor="agent-campaign">Campaign</FieldLabel>
