@@ -15,7 +15,6 @@ export const agentScoreboardColumnLabels: Record<string, string> = {
   qaScorePercent: "QA Score",
   callCount: "Calls",
   ahtSeconds: "AHT",
-  compliancePercent: "Compliance",
 };
 
 export const agentScoreboardColumns: ColumnDef<ScoreboardRow>[] = [
@@ -97,18 +96,6 @@ export const agentScoreboardColumns: ColumnDef<ScoreboardRow>[] = [
     cell: ({ row }) => (
       <div className="text-right font-mono text-sm text-slate-700">
         {formatMmSs(row.original.ahtSeconds)}
-      </div>
-    ),
-    sortingFn: "basic",
-  },
-  {
-    accessorKey: "compliancePercent",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Compliance" className="justify-end" />
-    ),
-    cell: ({ row }) => (
-      <div className="text-right">
-        <ScoreBadge value={row.original.compliancePercent} />
       </div>
     ),
     sortingFn: "basic",
