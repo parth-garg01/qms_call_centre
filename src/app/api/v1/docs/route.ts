@@ -9,7 +9,7 @@ export async function GET() {
   const html = `<!DOCTYPE html>
 <html>
   <head>
-    <title>iLeads QMS API</title>
+    <title>QMS API</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>

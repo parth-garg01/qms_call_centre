@@ -39,7 +39,7 @@ export function NavMain({
   const pathname = usePathname();
 
   function isActive(url: string) {
-    const normalized = pathname.replace(/^\/ileads-qms/, "") || "/";
+    const normalized = pathname.replace(/^\/qms/, "") || "/";
     return normalized === url || normalized.startsWith(`${url}/`);
   }
 

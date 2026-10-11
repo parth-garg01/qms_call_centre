@@ -107,7 +107,7 @@ fi
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
-APP_NAME="${APP_NAME:-ileads-qms}"
+APP_NAME="${APP_NAME:-qms}"
 DEPLOY_USER="${SUDO_USER:-root}"
 
 cd "$REPO_DIR"
@@ -230,7 +230,7 @@ fi
 # ----- 4. DATABASE_URL parsing + Postgres provisioning -----
 DATABASE_URL_RAW="$(read_env DATABASE_URL)"
 if [[ -z "$DATABASE_URL_RAW" ]]; then
-  die "DATABASE_URL is empty in .env. Set it like: postgresql://user:pass@localhost:5432/ileads_qms?schema=public"
+  die "DATABASE_URL is empty in .env. Set it like: postgresql://user:pass@localhost:5432/qms?schema=public"
 fi
 if [[ ! "$DATABASE_URL_RAW" =~ ^postgres(ql)?://([^:]+):([^@]+)@([^:/]+)(:([0-9]+))?/([^?]+)(\?.*)?$ ]]; then
   die "DATABASE_URL didn't parse. Expected postgresql://USER:PASS@HOST:PORT/DB[?...]"
@@ -354,8 +354,8 @@ fi
 BASE_PATH="$(read_env NEXT_PUBLIC_BASE_PATH)"
 # ${VAR-default} (no colon) so an explicit NEXT_PUBLIC_BASE_PATH="" in .env
 # stays empty for subdomain deploys. ${VAR:-default} would coerce empty back
-# to /ileads-qms.
-BASE_PATH="${BASE_PATH-/ileads-qms}"
+# to /qms.
+BASE_PATH="${BASE_PATH-/qms}"
 export NEXT_PUBLIC_BASE_PATH="$BASE_PATH"
 export NODE_ENV=production
 # Lift V8 heap so the Turbopack build can actually use the RAM+swap we set
@@ -378,7 +378,7 @@ unset NODE_OPTIONS
 if [[ $SKIP_PM2 -eq 0 ]]; then
   log "Starting/reloading PM2 ecosystem as $DEPLOY_USER"
   if as_user pm2 describe "$APP_NAME" >/dev/null 2>&1 \
-     || as_user pm2 describe "ileads-web" >/dev/null 2>&1; then
+     || as_user pm2 describe "qms-web" >/dev/null 2>&1; then
     as_user bash -c 'cd "$1" && pm2 reload ecosystem.config.js --update-env' _ "$REPO_DIR"
   else
     as_user bash -c 'cd "$1" && pm2 start ecosystem.config.js --update-env' _ "$REPO_DIR"

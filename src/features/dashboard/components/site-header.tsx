@@ -13,7 +13,7 @@ const titles: Record<string, { title: string; eyebrow: string }> = {
 
 export function SiteHeader() {
   const pathname = usePathname()
-  const segment = pathname.replace(/^\/ileads-qms/, "").split("/").filter(Boolean)[0] || "dashboard"
+  const segment = pathname.replace(/^\/qms/, "").split("/").filter(Boolean)[0] || "dashboard"
   const current = titles[segment] ?? { title: "QMS", eyebrow: "Quality management" }
 
   return (

@@ -18,7 +18,7 @@ export function Sidebar() {
     <aside className="fixed left-0 top-0 z-50 hidden h-full w-64 flex-col bg-gray-100 text-gray-700 transition-transform duration-300 lg:flex">
       <div className="px-2 py-6">
         <div className="mb-8 flex items-center px-4">
-          <img src={withBasePath("/ileads-logo.png")} alt="iLeads" className="h-auto max-w-[130px]" />
+          <span className="text-2xl font-semibold tracking-tight text-gray-800">QMS</span>
         </div>
         <nav className="space-y-2">
           <div className="group space-y-3">

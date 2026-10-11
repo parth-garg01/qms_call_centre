@@ -39,7 +39,7 @@ done
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
-APP_NAME="${APP_NAME:-ileads-qms}"
+APP_NAME="${APP_NAME:-qms}"
 cd "$REPO_DIR"
 
 # Refuse to run as root unless the repo is genuinely root-owned. Running
@@ -63,7 +63,7 @@ BASE_PATH=$(grep -E '^NEXT_PUBLIC_BASE_PATH=' .env | tail -1 \
 # Use ${VAR-default} (no colon) so an explicit empty value in .env stays
 # empty. With ${VAR:-default}, empty was being silently rewritten to the
 # default and the build kept the old basePath.
-BASE_PATH="${BASE_PATH-/ileads-qms}"
+BASE_PATH="${BASE_PATH-/qms}"
 
 echo "==> Repo:      $REPO_DIR"
 echo "==> App:       $APP_NAME"
@@ -107,7 +107,7 @@ else
 fi
 
 echo "==> Reloading PM2"
-if pm2 describe "$APP_NAME" >/dev/null 2>&1 || pm2 describe ileads-web >/dev/null 2>&1; then
+if pm2 describe "$APP_NAME" >/dev/null 2>&1 || pm2 describe qms-web >/dev/null 2>&1; then
   pm2 reload ecosystem.config.js --update-env
 else
   pm2 start ecosystem.config.js --update-env

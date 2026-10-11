@@ -1,8 +1,8 @@
-# AWS Production Deployment — iLeads QMS
+# AWS Production Deployment — QMS
 
 This builds on the existing Docker image (`Dockerfile`) and PM2 manifest
 (`ecosystem.config.js`), which already run **both** the web app
-(`ileads-web`) and the background worker (`ileads-queue-worker`) in one
+(`qms-web`) and the background worker (`qms-queue-worker`) in one
 container and run DB migrations on startup (`deploy/docker-entrypoint.sh`).
 
 STT now runs through the native `sarvamai` Node SDK — **no Python, no model
@@ -70,7 +70,7 @@ leave those two env vars empty and the AWS SDK picks up the role automatically.
 ```dotenv
 NODE_ENV=production
 APP_SECRET=<64-byte random>                 # node -e "console.log(require('crypto').randomBytes(64).toString('base64url'))"
-DATABASE_URL=postgresql://USER:PASS@<rds-endpoint>:5432/ileads_qms?schema=public
+DATABASE_URL=postgresql://USER:PASS@<rds-endpoint>:5432/qms?schema=public
 APP_BASE_URL=https://qms.yourdomain.com
 
 # Storage → S3
@@ -104,13 +104,13 @@ QUEUE_CONCURRENCY=3
 aws ecr get-login-password --region ap-south-1 \
   | docker login --username AWS --password-stdin <acct>.dkr.ecr.ap-south-1.amazonaws.com
 
-docker build -t ileads-qms --build-arg NEXT_PUBLIC_BASE_PATH="" .
-docker tag ileads-qms:latest <acct>.dkr.ecr.ap-south-1.amazonaws.com/ileads-qms:latest
-docker push <acct>.dkr.ecr.ap-south-1.amazonaws.com/ileads-qms:latest
+docker build -t qms --build-arg NEXT_PUBLIC_BASE_PATH="" .
+docker tag qms:latest <acct>.dkr.ecr.ap-south-1.amazonaws.com/qms:latest
+docker push <acct>.dkr.ecr.ap-south-1.amazonaws.com/qms:latest
 ```
 
 (`NEXT_PUBLIC_BASE_PATH` is baked at build time. Leave empty when serving at
-the domain root; set e.g. `/ileads-qms` only if you serve under a sub-path.)
+the domain root; set e.g. `/qms` only if you serve under a sub-path.)
 
 ## Run web and worker as separate ECS services (same image)
 
@@ -120,14 +120,14 @@ ecosystem.config.js` (web + worker together). For the split-service model,
 
 - **WEB service** — let migrations run, start only the web app:
   ```
-  command: ["sh","-c","npx prisma migrate deploy && pm2-runtime start node_modules/next/dist/bin/next --name ileads-web -- start -H 0.0.0.0 -p 3010"]
+  command: ["sh","-c","npx prisma migrate deploy && pm2-runtime start node_modules/next/dist/bin/next --name qms-web -- start -H 0.0.0.0 -p 3010"]
   ```
   Set `RUN_DB_MIGRATE=false` on the worker so only one service migrates.
 
 - **WORKER service** — skip migrations, run only the worker:
   ```
   RUN_DB_MIGRATE=false
-  command: ["pm2-runtime","start","node_modules/tsx/dist/cli.mjs","--name","ileads-queue-worker","--","--require","./scripts/_stt-preload.cjs","scripts/queue-worker.ts"]
+  command: ["pm2-runtime","start","node_modules/tsx/dist/cli.mjs","--name","qms-queue-worker","--","--require","./scripts/_stt-preload.cjs","scripts/queue-worker.ts"]
   ```
 
 If you prefer the simplest path, run **one** ECS service with the default

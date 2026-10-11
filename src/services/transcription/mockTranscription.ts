@@ -6,7 +6,7 @@ const SEGMENTS: TranscriptResult["segments"] = [
     speaker: "AGENT",
     startMs: 0,
     endMs: 5200,
-    text: "Namaste, mera naam Rahul hai, main iLeads support se bol raha hoon. Aapki call quality aur training ke liye record ho sakti hai.",
+    text: "Namaste, mera naam Rahul hai, main customer support se bol raha hoon. Aapki call quality aur training ke liye record ho sakti hai.",
     confidenceScore: 0.94,
   },
   {

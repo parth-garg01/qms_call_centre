@@ -43,7 +43,7 @@ Calls ingestion now lives in native Next.js code:
 
 ## 2. Routes that now contain the converted UI
 
-| Route (under `/ileads-qms`) | Source component |
+| Route (under `/qms`) | Source component |
 | --- | --- |
 | `/dashboard` | `src/app/(app)/dashboard/page.tsx` |
 | `/calls` | `src/app/(app)/calls/page.tsx` |
@@ -162,7 +162,7 @@ To prove the app does not need `/html`:
 mv /root/qms_demo/html /root/qms_demo/html_BACKUP_DO_NOT_USE
 
 # 2. Build (basePath baked in).
-NEXT_PUBLIC_BASE_PATH=/ileads-qms npx next build
+NEXT_PUBLIC_BASE_PATH=/qms npx next build
 
 # 3. Optional: run the standalone server and smoke-test the routes.
 cp -r .next/static .next/standalone/.next/
@@ -172,13 +172,13 @@ cp -r public .next/standalone/ 2>/dev/null || true
   APP_PASSWORD="demo-password" \
   DATABASE_URL="postgresql://qms:qms@localhost:5432/qms?schema=public" \
   PORT=3139 HOSTNAME=127.0.0.1 \
-  NEXT_PUBLIC_BASE_PATH=/ileads-qms \
+  NEXT_PUBLIC_BASE_PATH=/qms \
   node server.js ) &
 SERVER_PID=$!
 sleep 3
 for path in login dashboard calls parameters clients settings; do
   curl -s -o /dev/null -w "$path -> %{http_code}\n" \
-    http://127.0.0.1:3139/ileads-qms/$path
+    http://127.0.0.1:3139/qms/$path
 done
 kill $SERVER_PID
 

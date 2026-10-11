@@ -470,10 +470,10 @@ export function buildOpenApiDocument() {
   cached = generator.generateDocument({
     openapi: "3.1.0",
     info: {
-      title: "iLeads QMS API",
+      title: "QMS API",
       version: "1.0.0",
       description:
-        "REST API for the iLeads Quality Management System. All endpoints require a Bearer API key with the scope listed on each operation.",
+        "REST API for the Quality Management System. All endpoints require a Bearer API key with the scope listed on each operation.",
     },
     servers: [
       {

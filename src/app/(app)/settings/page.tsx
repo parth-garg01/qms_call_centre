@@ -30,7 +30,7 @@ export default async function SettingsPage() {
   const status = await dbStatus();
   const aiKey = process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.length > 0;
   const aiModel = process.env.OPENROUTER_MODEL ?? "openrouter/auto";
-  const appBaseUrl = process.env.APP_BASE_URL ?? "http://187.127.139.47/ileads-qms";
+  const appBaseUrl = process.env.APP_BASE_URL ?? "http://187.127.139.47/qms";
   const basePath = BASE_PATH || "/";
 
   return (

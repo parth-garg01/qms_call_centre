@@ -42,7 +42,7 @@ deploy/bootstrap-ec2.sh`.
 ```bash
 # 1. SSH into the box, clone the repo, copy .env
 ssh ubuntu@<host>
-git clone https://github.com/ileads-auxiliary-services/qms /opt/qms
+git clone https://github.com/parth-garg01/qms_call_centre /opt/qms
 cd /opt/qms
 cp .env.example .env
 $EDITOR .env       # fill in DATABASE_URL password, APP_PASSWORD, API keys
@@ -52,7 +52,7 @@ $EDITOR .env       # fill in DATABASE_URL password, APP_PASSWORD, API keys
 sudo bash deploy/bootstrap-ec2.sh
 ```
 
-That's it. Browse to `http://<host>/ileads-qms/login` and log in with
+That's it. Browse to `http://<host>/qms/login` and log in with
 `APP_PASSWORD`.
 
 ## What `bootstrap-ec2.sh` does
@@ -101,7 +101,7 @@ The script reads these directly from `.env`:
 | `DATABASE_URL` | `postgresql://user:pass@host:port/db?schema=public`. The script provisions the role + db when host is localhost. |
 | `APP_SECRET` | Session signing key. Auto-generated when missing/placeholder. |
 | `APP_PASSWORD` | Demo login password (single-tenant). |
-| `NEXT_PUBLIC_BASE_PATH` | URL prefix baked into the bundle. Defaults to `/ileads-qms`. |
+| `NEXT_PUBLIC_BASE_PATH` | URL prefix baked into the bundle. Defaults to `/qms`. |
 | `APP_BASE_URL` | Absolute public URL of the app. Used in OpenAPI + webhooks. |
 
 Optional STT / LLM / storage keys are passed through unchanged — see
@@ -134,8 +134,8 @@ nginx config dump, and the last nginx error log lines.
 
 ```bash
 pm2 status
-pm2 logs ileads-web --lines 100
-pm2 logs ileads-queue-worker --lines 100
+pm2 logs qms-web --lines 100
+pm2 logs qms-queue-worker --lines 100
 pm2 reload ecosystem.config.js --update-env
 sudo systemctl reload nginx
 sudo systemctl restart postgresql
@@ -144,13 +144,13 @@ npx prisma migrate status
 
 ## Routing invariants — DO NOT BREAK
 
-The Next.js bundle is built with `basePath=/ileads-qms`, so the upstream
-**expects** the `/ileads-qms` prefix on every request, including
-`/ileads-qms/_next/*`. `deploy/nginx.conf` reflects this:
+The Next.js bundle is built with `basePath=/qms`, so the upstream
+**expects** the `/qms` prefix on every request, including
+`/qms/_next/*`. `deploy/nginx.conf` reflects this:
 
-- `location = /ileads-qms` → proxy (no 301 — Next's strict-slash policy
+- `location = /qms` → proxy (no 301 — Next's strict-slash policy
   would 308 back into a loop).
-- `location ^~ /ileads-qms/` → prefix-passthrough proxy
+- `location ^~ /qms/` → prefix-passthrough proxy
   (`proxy_pass http://127.0.0.1:3010;` with no URI).
 - `client_max_body_size 200M` so audio uploads aren't rejected at the
   edge before the app sees them.
@@ -203,7 +203,7 @@ when you want a self-contained container.
 - **`prisma migrate deploy` fails with `P1000`** — the Postgres role
   password in `DATABASE_URL` doesn't match the actual role password.
   Re-run the bootstrap; it will reset the role password from `.env`.
-- **PM2 process restarting on every request** — `pm2 logs ileads-web`
+- **PM2 process restarting on every request** — `pm2 logs qms-web`
   usually points at a missing env var (`APP_SECRET` empty, Sentry DSN
   malformed). Fix `.env` and `pm2 reload ecosystem.config.js --update-env`.
 - **413 Request Entity Too Large** on audio upload — nginx

@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        # Bake base path into the Next.js bundle at build time (e.g. /ileads-qms)
-        - NEXT_PUBLIC_BASE_PATH=/ileads-qms
+        # Bake base path into the Next.js bundle at build time (e.g. /qms)
+        - NEXT_PUBLIC_BASE_PATH=/qms
     container_name: qms-app
     restart: always
     ports:
@@ -17,15 +17,15 @@ services:
         condition: service_healthy
     environment:
       # Connect to the local postgres container
-      - DATABASE_URL=postgresql://ileads_qms_user:securepassword123@db:5432/ileads_qms?schema=public
+      - DATABASE_URL=postgresql://qms_user:securepassword123@db:5432/qms?schema=public
       
       # App Security and Credentials
       - APP_SECRET=${APP_SECRET}
       - APP_PASSWORD=${APP_PASSWORD}
       
       # App Routing
-      - NEXT_PUBLIC_BASE_PATH=/ileads-qms
-      - APP_BASE_URL=http://localhost:3010/ileads-qms
+      - NEXT_PUBLIC_BASE_PATH=/qms
+      - APP_BASE_URL=http://localhost:3010/qms
       
       # Speech to Text Configuration (Sarvam uses the native Node SDK — no Python)
       - STT_PROVIDER=${STT_PROVIDER:-sarvam}
@@ -66,16 +66,16 @@ services:
     container_name: qms-db
     restart: always
     environment:
-      - POSTGRES_USER=ileads_qms_user
+      - POSTGRES_USER=qms_user
       - POSTGRES_PASSWORD=securepassword123
-      - POSTGRES_DB=ileads_qms
+      - POSTGRES_DB=qms
     ports:
       # Exposed on host port 5433 to match default configuration and avoid conflicts
       - "5433:5432"
     volumes:
       - qms-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ileads_qms_user -d ileads_qms"]
+      test: ["CMD-SHELL", "pg_isready -U qms_user -d qms"]
       interval: 5s
       timeout: 5s
       retries: 5

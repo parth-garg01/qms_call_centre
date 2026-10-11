@@ -59,7 +59,7 @@ export function AppSidebar({
               className="h-14 justify-start data-[slot=sidebar-menu-button]:p-2!"
               onClick={() => router.push("/")}
             >
-              <img src={withBasePath("/ileads-logo.png")} alt="iLeads" className="h-auto max-w-32" />
+              <span className="text-2xl font-semibold tracking-tight">QMS</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

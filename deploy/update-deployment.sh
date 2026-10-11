@@ -167,7 +167,7 @@ echo -e "\n${YELLOW}Step 4: Performing service health checks...${NC}"
 sleep 3
 
 # Read port and basepath from .env
-BASE_PATH="/ileads-qms"
+BASE_PATH="/qms"
 if [[ -f ".env" ]]; then
     ENV_BASE_PATH=$(grep -E '^NEXT_PUBLIC_BASE_PATH=' .env | tail -1 | sed -E 's/^NEXT_PUBLIC_BASE_PATH=//; s/^"(.*)"$/\1/; s/^'"'"'(.*)'"'"'$/\1/')
     if [[ -n "$ENV_BASE_PATH" ]]; then

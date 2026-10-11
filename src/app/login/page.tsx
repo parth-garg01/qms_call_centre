@@ -15,7 +15,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
     <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(135deg,#eef3fb_0%,#f7f9fc_35%,#f3f6fb_100%)] p-4">
       <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-[0_8px_24px_rgba(16,24,40,0.08)] p-8">
         <div className="flex justify-center mb-6">
-          <img src={withBasePath("/ileads-logo.png")} alt="iLeads" className="h-auto w-32" />
+          <span className="text-3xl font-semibold tracking-tight text-slate-800">QMS</span>
         </div>
         <h2 className="text-2xl font-semibold text-slate-800 mb-1.5">Sign in</h2>
         <p className="text-sm text-slate-500 mb-6">

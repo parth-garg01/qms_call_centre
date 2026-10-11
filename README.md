@@ -8,7 +8,7 @@ The app deploys directly on the host with Node.js, PostgreSQL, PM2, and Nginx.
 It is served publicly at:
 
 ```text
-http://187.127.139.47/ileads-qms
+http://187.127.139.47/qms
 ```
 
 ## Tech Stack
@@ -40,8 +40,8 @@ The schema is in `prisma/schema.prisma` and uses PostgreSQL through
 Default direct deployment values:
 
 ```text
-database: ileads_qms
-user:     ileads_qms_user
+database: qms
+user:     qms_user
 host:     localhost:5432
 ```
 
@@ -60,8 +60,8 @@ see `docs/deployment-runbook.md`. To do the same steps by hand:
 sudo apt update
 sudo apt install -y postgresql postgresql-contrib
 # create the role + db (or just run deploy/bootstrap-ec2.sh which does this for you)
-sudo -u postgres psql -c "CREATE ROLE ileads_qms_user LOGIN PASSWORD '<pwd>';"
-sudo -u postgres psql -c "CREATE DATABASE ileads_qms OWNER ileads_qms_user;"
+sudo -u postgres psql -c "CREATE ROLE qms_user LOGIN PASSWORD '<pwd>';"
+sudo -u postgres psql -c "CREATE DATABASE qms OWNER qms_user;"
 npx prisma migrate deploy
 npm run db:seed
 ```
@@ -91,11 +91,11 @@ npm run db:seed
 npm run dev
 ```
 
-Production is built under `/ileads-qms`, so the production build command must
+Production is built under `/qms`, so the production build command must
 include the base path:
 
 ```bash
-NEXT_PUBLIC_BASE_PATH=/ileads-qms npm run build
+NEXT_PUBLIC_BASE_PATH=/qms npm run build
 ```
 
 ## Direct Deployment
@@ -103,11 +103,11 @@ NEXT_PUBLIC_BASE_PATH=/ileads-qms npm run build
 Expected production `.env` values:
 
 ```text
-DATABASE_URL="postgresql://ileads_qms_user:<password>@localhost:5432/ileads_qms?schema=public"
+DATABASE_URL="postgresql://qms_user:<password>@localhost:5432/qms?schema=public"
 APP_SECRET="<long random secret>"
 APP_PASSWORD="<seed login password>"
-NEXT_PUBLIC_BASE_PATH="/ileads-qms"
-APP_BASE_URL="http://187.127.139.47/ileads-qms"
+NEXT_PUBLIC_BASE_PATH="/qms"
+APP_BASE_URL="http://187.127.139.47/qms"
 NODE_ENV="production"
 MOCK_STT=false
 SHOW_MOCK_ACTIONS=false
@@ -138,8 +138,8 @@ Useful PM2 commands:
 
 ```bash
 pm2 status
-pm2 logs ileads-qms --lines 100
-pm2 restart ileads-qms
+pm2 logs qms --lines 100
+pm2 restart qms
 pm2 save
 pm2 startup
 ```
@@ -150,15 +150,15 @@ pm2 startup
 Next.js `basePath`. For production, build with:
 
 ```bash
-NEXT_PUBLIC_BASE_PATH=/ileads-qms npm run build
+NEXT_PUBLIC_BASE_PATH=/qms npm run build
 ```
 
 Routing invariants:
 
-- `/ileads-qms` reaches the app.
-- `/ileads-qms/login` reaches the login page.
-- `/ileads-qms/dashboard` redirects to login when unauthenticated.
-- `/ileads-qms/_next/*` assets are proxied to the same Node process.
+- `/qms` reaches the app.
+- `/qms/login` reaches the login page.
+- `/qms/dashboard` redirects to login when unauthenticated.
+- `/qms/_next/*` assets are proxied to the same Node process.
 - Hand-built redirects use `src/lib/base-path.ts` to avoid double prefixes.
 
 ## Audio Uploads
@@ -313,7 +313,7 @@ SHOW_MOCK_ACTIONS=false # hide mock controls outside development
 ```
 
 ```bash
-pm2 restart ileads-qms --update-env
+pm2 restart qms --update-env
 ```
 
 ### Smoke test

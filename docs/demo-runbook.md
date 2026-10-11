@@ -1,9 +1,9 @@
 # QMS Demo Runbook
 
-Short operator guide for running the iLeads QMS demo.
+Short operator guide for running the QMS demo.
 
-- Public app: **http://187.127.139.47/ileads-qms**
-- Process manager: **pm2 app `ileads-qms`** (Next.js on `127.0.0.1:3010`, behind nginx)
+- Public app: **http://187.127.139.47/qms**
+- Process manager: **pm2 app `qms`** (Next.js on `127.0.0.1:3010`, behind nginx)
 - DB: PostgreSQL on `localhost:5433`
 - STT: **Sarvam Saaras v3** (Batch with diarization), optional local fallback
   **IndicConformer → faster-whisper-small**.
@@ -13,8 +13,8 @@ Short operator guide for running the iLeads QMS demo.
 
 ## 1. Login
 
-1. Open **http://187.127.139.47/ileads-qms** in a modern browser.
-2. You are redirected to `/ileads-qms/login`.
+1. Open **http://187.127.139.47/qms** in a modern browser.
+2. You are redirected to `/qms/login`.
 3. Enter the demo password (configured as `APP_PASSWORD` in `.env`).
 4. You land on the Dashboard.
 
@@ -129,25 +129,25 @@ A custom audit prompt can be saved per client; it is auto-versioned.
 
 ```bash
 # Tail (live)
-pm2 logs ileads-qms
+pm2 logs qms
 
 # Last 120 lines, non-blocking
-pm2 logs ileads-qms --lines 120 --nostream
+pm2 logs qms --lines 120 --nostream
 
 # Restart after .env changes
-pm2 restart ileads-qms --update-env
+pm2 restart qms --update-env
 
 # Process status
-pm2 status ileads-qms
+pm2 status qms
 ```
 
 Sanity-check public URLs:
 
 ```bash
-curl -I http://187.127.139.47/ileads-qms
-curl -I http://187.127.139.47/ileads-qms/login
-curl -I http://187.127.139.47/ileads-qms/calls
-curl -I http://187.127.139.47/ileads-qms/parameters
+curl -I http://187.127.139.47/qms
+curl -I http://187.127.139.47/qms/login
+curl -I http://187.127.139.47/qms/calls
+curl -I http://187.127.139.47/qms/parameters
 ```
 
 ## 11. Rebuild after code changes
@@ -157,6 +157,6 @@ cd /root/qms_demo
 npm install                                # only if package.json changed
 npx prisma generate
 npx prisma migrate deploy                  # only if migrations exist
-NEXT_PUBLIC_BASE_PATH=/ileads-qms npm run build
-pm2 restart ileads-qms --update-env
+NEXT_PUBLIC_BASE_PATH=/qms npm run build
+pm2 restart qms --update-env
 ```

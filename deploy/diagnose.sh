@@ -25,9 +25,9 @@ hide_secrets() {
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
-APP_NAME="${APP_NAME:-ileads-qms}"
+APP_NAME="${APP_NAME:-qms}"
 
-# basePath from .env; empty for subdomain deploys, "/ileads-qms" for the
+# basePath from .env; empty for subdomain deploys, "/qms" for the
 # legacy path-based layout. Empty default keeps probes pointed at the
 # right URLs without per-deploy edits.
 BASE_PATH=$(grep -E '^NEXT_PUBLIC_BASE_PATH=' "$REPO_DIR/.env" 2>/dev/null | tail -1 \
@@ -108,8 +108,8 @@ for f in /etc/nginx/sites-enabled/*; do
   cat "$f" 2>/dev/null | head -120
 done
 
-H "ileads-qms OCCURRENCES IN ACTIVE NGINX CONFIG"
-nginx -T 2>/dev/null | grep -n 'ileads-qms' -C 3 | head -80
+H "qms OCCURRENCES IN ACTIVE NGINX CONFIG"
+nginx -T 2>/dev/null | grep -n 'qms' -C 3 | head -80
 
 H "ALL default_server BINDINGS ON :80"
 grep -nEr 'listen[[:space:]]+([^;]*\s)?80([^;]*\s)?default_server' \

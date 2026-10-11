@@ -1,4 +1,4 @@
-// Base path the app is mounted under (e.g. "/ileads-qms" in production, ""
+// Base path the app is mounted under (e.g. "/qms" in production, ""
 // for local dev). Set via NEXT_PUBLIC_BASE_PATH at build time — Next.js bakes
 // the value into both server and client bundles, so referencing process.env
 // here is safe in either runtime.
@@ -22,7 +22,7 @@ const DEFAULT_AUTH_REDIRECT = "/dashboard";
 export function withBasePath(path: string): string {
   if (!path) return BASE_PATH || "/";
   if (!BASE_PATH) return path.startsWith("/") ? path : `/${path}`;
-  // Already prefixed? Return as-is so we never produce /ileads-qms/ileads-qms/…
+  // Already prefixed? Return as-is so we never produce /qms/qms/…
   if (path === BASE_PATH || path.startsWith(`${BASE_PATH}/`)) return path;
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return `${BASE_PATH}${normalized}`;
