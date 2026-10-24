@@ -1,15 +1,16 @@
 # QMS - Quality Management System
 
-A standalone Quality Management System for contact-centre call audits. This
-repo contains the database schema, password auth, base-path routing, layouts,
-seed data, DB-backed screens, and the current mock audit pipeline.
+This is a cloud architecture project for Parth Garg.
 
-The app deploys directly on the host with Node.js, PostgreSQL, PM2, and Nginx.
-It is served publicly at:
+QMS is a Quality Management System for contact-centre call audits. This repo
+contains the database schema, password auth, base-path routing, layouts, seed
+data, DB-backed screens, and the audit pipeline: speech-to-text transcription
+of call audio followed by an LLM audit of the transcript against client-defined
+parameters.
 
-```text
-http://187.127.139.47/qms
-```
+The app is designed to deploy directly on a Linux host with Node.js,
+PostgreSQL, PM2, and Nginx (see `docs/deployment-runbook.md`). A Dockerfile and
+`docker-compose.yml` are also included.
 
 ## Tech Stack
 
@@ -29,8 +30,21 @@ http://187.127.139.47/qms
 | Call Library | `/calls` | Searchable and filterable call table with multi-file audio upload |
 | Call Detail | `/calls/[id]` | Audio player, transcript, audit scores, insights, timeline, manual review form, and notes |
 | Parameter Builder | `/parameters` | Client-owned binary-scored parameter CRUD |
+| Agents | `/agents` | Agent directory table |
 | Clients | `/clients` | Tenant directory and status controls |
 | Settings | `/settings` | Environment, DB, AI status, base URL, and base path display |
+
+Also in the codebase:
+
+- REST API under `/api/v1/*` (calls, transcripts, audits, agents, dashboard
+  metrics) with API-key authentication, per-key rate limiting, and OpenAPI docs
+  at `/api/v1/docs`
+- Outgoing webhooks with delivery history, and per-client usage quotas
+- Excel import of call lists (`/api/calls/import-excel`)
+- Local or S3-compatible audio storage
+- Background processing through a Postgres-polling worker or BullMQ/Redis
+- Sarvam, Deepgram, or local STT providers
+- Optional Sentry error tracking
 
 ## Database
 
@@ -53,7 +67,7 @@ $EDITOR .env
 ```
 
 For a fresh EC2 / Ubuntu host, the one-shot bootstrap script provisions
-PostgreSQL, applies the schema, and seeds demo data in a single command —
+PostgreSQL, applies the schema, and seeds demo data in a single command -
 see `docs/deployment-runbook.md`. To do the same steps by hand:
 
 ```bash
@@ -107,7 +121,7 @@ DATABASE_URL="postgresql://qms_user:<password>@localhost:5432/qms?schema=public"
 APP_SECRET="<long random secret>"
 APP_PASSWORD="<seed login password>"
 NEXT_PUBLIC_BASE_PATH="/qms"
-APP_BASE_URL="http://187.127.139.47/qms"
+APP_BASE_URL="http://<your-host>/qms"
 NODE_ENV="production"
 MOCK_STT=false
 SHOW_MOCK_ACTIONS=false
@@ -205,9 +219,9 @@ uses the first active client by default, and creates `CALL-IMPORT-*` records.
 Set `IMPORT_AUDIO_CLIENT_ID` or `IMPORT_AUDIO_CLIENT_SLUG` to target a specific
 client.
 
-Call detail uses Sarvam Batch STT for demo transcription and OpenRouter/Gemma
-for live text-only audit. Mock actions remain available only when explicitly
-enabled for development; they are hidden in the production demo.
+Call detail uses Sarvam Batch STT for transcription and an OpenRouter LLM
+(default `google/gemini-2.5-flash`, set with `OPENROUTER_AUDIT_MODEL`) for the
+text-only audit. Mock actions appear only when `SHOW_MOCK_ACTIONS=true`.
 
 ## STT Providers
 
@@ -243,7 +257,7 @@ speaker order if confidence is low. Use `fixed` to force first observed speaker
 -> Agent and second -> Customer, or `raw` to keep raw speaker IDs for
 investigation. If a specific line has the wrong speaker, correct it with the
 speaker dropdown beside that transcript segment, then re-run the AI audit.
-Corrections are stored for future training/model improvement. You can also run
+Corrections are saved in the database. You can also run
 calibration against short real-call clips:
 
 Smoke tests:
@@ -284,7 +298,7 @@ runtime/stt/                    <- per-run JSON output (gitignored)
 
 | Role | Key | HF repo | Notes |
 | --- | --- | --- | --- |
-| Primary | `indicconformer` | `ai4bharat/indic-conformer-600m-multilingual` | **Gated** — needs `HF_TOKEN` |
+| Primary | `indicconformer` | `ai4bharat/indic-conformer-600m-multilingual` | **Gated** - needs `HF_TOKEN` |
 | Fallback 1 | `faster-whisper-small` | `Systran/faster-whisper-small` | CPU-friendly fallback |
 
 All paths, repos, devices, languages, thresholds, and chain order are env-driven
@@ -340,7 +354,7 @@ UI surfaces every attempt under "STT chain attempts" and tags the saved
 transcript with the winning model.
 
 **Weak-segment fallback** (re-transcribing only low-confidence chunks with the
-next model) is a follow-up — it requires the Python contract to expose per-chunk
+next model) is a follow-up - it requires the Python contract to expose per-chunk
 confidence + a chunk-targeted re-run API.
 
 ### CPU vs GPU
@@ -350,9 +364,9 @@ faster-whisper runs in `int8`. The configured fallback should be
 `faster-whisper-small` on this CPU server; switch the fallback env values to
 `faster-whisper-base` if small is still too slow.
 
-### Gemma / OpenRouter
+### OpenRouter audit
 
-Gemma/OpenRouter receives saved transcript text, call metadata, and parameters.
+The OpenRouter audit model receives saved transcript text, call metadata, and parameters.
 It never receives raw audio. The STT provider is the only component that
 touches audio.
 
@@ -397,9 +411,6 @@ docs/
   deployment-runbook.md
 ```
 
-The `/root/qms_demo/html` reference folder is not used at runtime or build
-time.
-
 ## Useful Scripts
 
 ```bash
@@ -416,8 +427,9 @@ npm run db:reset     # prisma migrate reset --force
 
 ## AI Pipeline Status
 
-Live STT and OpenRouter audit are implemented. For the demo, Sarvam is the
-primary STT provider and local STT remains available as fallback/R&D.
+Live STT and OpenRouter audit are implemented. Sarvam is the
+default STT provider; the local STT chain is used as a fallback when
+`LOCAL_STT_ENABLED=true`.
 
 For the full production host procedure, see
 [`docs/deployment-runbook.md`](docs/deployment-runbook.md).
