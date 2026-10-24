@@ -30,7 +30,7 @@ const NOOP = async () => {};
  *   the OS temp dir. The returned cleanup() removes that temp directory.
  *
  * This exists because every STT engine (Sarvam via a Python child process,
- * Deepgram via fs.readFile) and ffprobe require a real file on disk — they
+ * Deepgram via fs.readFile) and ffprobe require a real file on disk - they
  * cannot consume an S3 object key directly.
  */
 export async function materializeAudioToLocalFile(key: string): Promise<LocalAudioFile> {

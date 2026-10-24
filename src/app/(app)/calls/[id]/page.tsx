@@ -139,7 +139,7 @@ export default async function CallDetailPage({ params }: PageProps) {
       audit?.createdAt &&
       call.transcript.speakerCorrectedAt > audit.createdAt,
     );
-  // KPI buckets — one row per active standard parameter for this client.
+  // KPI buckets - one row per active standard parameter for this client.
   // Sub-parameter scores roll up under their standardParameter; if the
   // ClientParameter isn't mapped (e.g. historical), fall back to its
   // category string so it doesn't disappear from the page entirely.
@@ -234,8 +234,8 @@ export default async function CallDetailPage({ params }: PageProps) {
       </div>
       <InfoRow label="Call ID">{callIdText}</InfoRow>
       <InfoRow label="Process">{call.client.name}</InfoRow>
-      <InfoRow label="Campaign">{call.campaign?.name ?? "—"}</InfoRow>
-      <InfoRow label="Agent ID">{call.agent?.employeeCode ?? "—"}</InfoRow>
+      <InfoRow label="Campaign">{call.campaign?.name ?? "-"}</InfoRow>
+      <InfoRow label="Agent ID">{call.agent?.employeeCode ?? "-"}</InfoRow>
       <InfoRow label="Date & Time">
         {formatShortDate(call.callStartedAt)} · {formatTime(call.callStartedAt)}
       </InfoRow>
@@ -419,7 +419,7 @@ export default async function CallDetailPage({ params }: PageProps) {
                     </Pill>
                   </TableCell>
                   <TableCell className="max-w-[420px] align-top whitespace-normal text-slate-600">
-                    {ps.reasoning ?? "—"}
+                    {ps.reasoning ?? "-"}
                     {ps.evidenceText ? (
                       <div className="mt-1 text-xs italic text-slate-500">“{ps.evidenceText}”</div>
                     ) : null}
@@ -535,12 +535,12 @@ export default async function CallDetailPage({ params }: PageProps) {
                   <TableCell className="whitespace-normal text-sm font-medium text-slate-700">
                     {e.title ?? e.eventType}
                   </TableCell>
-                  <TableCell className="text-xs text-slate-500">{e.speaker ?? "—"}</TableCell>
+                  <TableCell className="text-xs text-slate-500">{e.speaker ?? "-"}</TableCell>
                   <TableCell className="text-xs">
-                    {e.severity ? <Pill tone={e.severity === "HIGH" || e.severity === "CRITICAL" ? "red" : e.severity === "MEDIUM" ? "yellow" : "blue"}>{e.severity}</Pill> : "—"}
+                    {e.severity ? <Pill tone={e.severity === "HIGH" || e.severity === "CRITICAL" ? "red" : e.severity === "MEDIUM" ? "yellow" : "blue"}>{e.severity}</Pill> : "-"}
                   </TableCell>
                   <TableCell className="whitespace-normal text-xs text-slate-600">
-                    {e.description ?? "—"}
+                    {e.description ?? "-"}
                     {e.evidenceText ? <div className="mt-1 italic text-slate-500">“{e.evidenceText}”</div> : null}
                   </TableCell>
                 </TableRow>
@@ -643,7 +643,7 @@ function KpiCard({
       <div className="text-xs font-semibold text-slate-500">{label}</div>
       <div className="mt-1 flex items-baseline gap-2">
         <span className="text-lg font-bold text-slate-800">
-          {pct == null ? "—" : formatPercent(pct, 0)}
+          {pct == null ? "-" : formatPercent(pct, 0)}
         </span>
         {max > 0 ? (
           <span className="text-[11px] text-slate-500">

@@ -37,11 +37,11 @@ export const prisma =
   globalForPrisma.prisma ?? buildClient(withPoolParams(process.env.DATABASE_URL));
 
 // Read-only client. When DATABASE_REPLICA_URL is set, this is a separate
-// PrismaClient pointed at the read replica — use for read-heavy aggregates
+// PrismaClient pointed at the read replica - use for read-heavy aggregates
 // (dashboards, list endpoints) so the primary stays free for writes.
 //
 // CAVEAT: replication is asynchronous. Avoid prismaRead for "read what I
-// just wrote" flows (e.g. fetching a Call by id immediately after create) —
+// just wrote" flows (e.g. fetching a Call by id immediately after create) -
 // use the primary `prisma` for those.
 //
 // When the env var is missing, prismaRead === prisma so existing call sites

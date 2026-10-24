@@ -1,7 +1,7 @@
 import "server-only";
 import { EventEmitter } from "node:events";
 
-// In-process pub/sub for call status events. Single-instance only — when we
+// In-process pub/sub for call status events. Single-instance only - when we
 // move to multi-instance Next deployments (phase 3+), swap the underlying
 // emitter for Redis pub/sub. Public API stays the same.
 

@@ -1,4 +1,4 @@
-// BullMQ-backed worker for call processing. Runs two workers in-process —
+// BullMQ-backed worker for call processing. Runs two workers in-process -
 // one for the transcribe queue and one for the audit queue. Horizontally
 // scalable: launch N copies behind the same Redis and they cooperate.
 //
@@ -42,7 +42,7 @@ async function main() {
   const { Worker } = await import("bullmq");
   const conn = (await _getConnectionForWorker()) as never;
 
-  // Stage 1 — transcription.
+  // Stage 1 - transcription.
   const transcribeWorker = new Worker<CallJobData>(
     QUEUE_NAMES.transcribe,
     async (job) => {
@@ -93,7 +93,7 @@ async function main() {
     { connection: conn, concurrency },
   );
 
-  // Stage 2 — audit.
+  // Stage 2 - audit.
   const auditWorker = new Worker<CallJobData>(
     QUEUE_NAMES.audit,
     async (job) => {
@@ -136,7 +136,7 @@ async function main() {
     { connection: conn, concurrency },
   );
 
-  // Stage 3 — webhook delivery.
+  // Stage 3 - webhook delivery.
   const webhookWorker = new Worker<WebhookDeliveryJobData>(
     QUEUE_NAMES.webhook,
     async (job) => {
@@ -146,7 +146,7 @@ async function main() {
         select: { id: true, url: true, secret: true },
       });
       if (!webhook) {
-        // Subscription was deleted/deactivated between enqueue and delivery —
+        // Subscription was deleted/deactivated between enqueue and delivery -
         // mark the row failed and don't retry.
         await prisma.webhookDelivery
           .update({
@@ -240,7 +240,7 @@ async function main() {
   }
 
   const shutdown = async (sig: string) => {
-    console.log(`[bullmq] received ${sig} — closing workers.`);
+    console.log(`[bullmq] received ${sig} - closing workers.`);
     await Promise.allSettled([
       transcribeWorker.close(),
       auditWorker.close(),

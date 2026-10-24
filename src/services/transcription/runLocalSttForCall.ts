@@ -39,7 +39,7 @@ export interface RunLocalSttResult {
  *
  * Throws SttError when *every* model in the chain failed; the action layer
  * surfaces the code to the UI. The existing transcript is preserved on
- * failure — saveTranscript only runs after a successful engine response.
+ * failure - saveTranscript only runs after a successful engine response.
  */
 export async function runLocalSttForCall(callId: string, clientId: string): Promise<RunLocalSttResult> {
   const config = loadSttConfig();

@@ -1,6 +1,6 @@
 // Pure crypto helpers for generating API keys and webhook secrets.
 // Kept free of the `server-only` marker so CLI scripts (scripts/*.ts) can
-// import them — the verification side (which touches Prisma) still lives in
+// import them - the verification side (which touches Prisma) still lives in
 // api-key.ts / webhooks.ts behind the server-only guard.
 
 import bcrypt from "bcryptjs";

@@ -10,7 +10,7 @@ import { SttError, type SttEngine, type SttResult, type SttSegment } from "../ty
 // pipeline (saveTranscript, audit, etc.) treats it identically to Sarvam
 // or local STT.
 //
-// Configuration is environment-driven (no SttConfig.deepgram block — we
+// Configuration is environment-driven (no SttConfig.deepgram block - we
 // keep this engine independent of the existing config schema so plugging
 // in third-party providers via the registry stays a single-file diff):
 //   DEEPGRAM_API_KEY      required

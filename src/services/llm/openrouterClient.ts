@@ -4,7 +4,7 @@ import "server-only";
  * Minimal OpenRouter chat-completions client used by the live AI audit.
  *
  * Design constraints:
- *   - No audio is ever sent — only text (prompt with metadata + transcript).
+ *   - No audio is ever sent - only text (prompt with metadata + transcript).
  *   - API key is read from process.env at call time. Never logged, never
  *     returned. If missing we surface code "OPENROUTER_API_KEY_MISSING".
  *   - Retries transient failures (HTTP 429 / 5xx, AbortError, fetch errors).
@@ -17,7 +17,7 @@ export interface OpenRouterConfig {
   apiKey: string;
   baseUrl: string;
   model: string;
-  /** OpenRouter-native fallback chain — populated when the primary upstream is rate-limited. */
+  /** OpenRouter-native fallback chain - populated when the primary upstream is rate-limited. */
   fallbackModels: string[];
   timeoutMs: number;
   httpReferer: string | null;
@@ -232,7 +232,7 @@ function sleep(ms: number): Promise<void> {
 /**
  * Run a chat completion against OpenRouter or Direct Gemini.
  *
- * Does NOT throw on network/HTTP errors — returns an OpenRouterChatError
+ * Does NOT throw on network/HTTP errors - returns an OpenRouterChatError
  * the caller can surface to the UI / DB.
  */
 export async function openrouterChat<T = unknown>(

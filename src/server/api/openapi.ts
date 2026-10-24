@@ -7,7 +7,7 @@ import {
 
 // OpenAPI 3.1 spec generated from Zod schemas. Each route is registered with
 // its query/path/body schemas + a high-level response shape. We intentionally
-// don't try to mirror every nested Prisma type — clients can rely on the
+// don't try to mirror every nested Prisma type - clients can rely on the
 // JSON envelope and the procedure's input contract.
 
 const registry = new OpenAPIRegistry();

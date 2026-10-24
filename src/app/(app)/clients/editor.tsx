@@ -109,8 +109,8 @@ export function ClientsEditor({
                       ) : null}
                     </td>
                     <td className="px-3 py-3 font-mono text-xs text-slate-500">{c.slug}</td>
-                    <td className="px-3 py-3 text-slate-600">{c.industry ?? "—"}</td>
-                    <td className="px-3 py-3 text-slate-600">{c.contactEmail ?? "—"}</td>
+                    <td className="px-3 py-3 text-slate-600">{c.industry ?? "-"}</td>
+                    <td className="px-3 py-3 text-slate-600">{c.contactEmail ?? "-"}</td>
                     <td className="px-3 py-3 text-right">{c.counts.calls}</td>
                     <td className="px-3 py-3 text-right">{c.counts.agents}</td>
                     <td className="px-3 py-3 text-right">{c.counts.teams}</td>

@@ -101,7 +101,7 @@ export async function saveAuditResult(opts: SaveAuditOptions): Promise<SaveAudit
     }
 
     // Audit-derived events for the new run. We delete any previous
-    // audit-derived events so re-running doesn't pile them up — manual
+    // audit-derived events so re-running doesn't pile them up - manual
     // events (CALL_IMPORTED, TRANSCRIPT_READY, NOTE_ADDED, MANUAL_REVIEW_*)
     // are preserved.
     const auditEventTypes = [

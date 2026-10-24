@@ -13,10 +13,10 @@
 // via `npm run worker:queue` for development.
 //
 // Env:
-//   QUEUE_WORKER_POLL_MS       default 5000  — sleep between empty polls
-//   QUEUE_CONCURRENCY          default 3     — max parallel call processing
-//   QUEUE_MAX_RETRIES          default 3     — max audit retry attempts
-//   QUEUE_WORKER_RECOVER_STALE default true  — on startup, reset calls stuck
+//   QUEUE_WORKER_POLL_MS       default 5000  - sleep between empty polls
+//   QUEUE_CONCURRENCY          default 3     - max parallel call processing
+//   QUEUE_MAX_RETRIES          default 3     - max audit retry attempts
+//   QUEUE_WORKER_RECOVER_STALE default true  - on startup, reset calls stuck
 //                                              in transcribing/auditing past
 //                                              the 30 min stale window back to
 //                                              "uploaded" so they re-enter the
@@ -161,7 +161,7 @@ async function processCall(callId: string, clientId: string): Promise<void> {
   log(`Processing call`, { callId });
   publishCallEvent(callId, { type: "status", status: "transcribing" });
 
-  // Stage 1 — transcription. Lock is already at "transcribing" from claim.
+  // Stage 1 - transcription. Lock is already at "transcribing" from claim.
   try {
     const isMock = process.env.MOCK_STT === "true" || process.env.MOCK_STT === "1";
     const sttRaw = isMock
@@ -215,7 +215,7 @@ async function processCall(callId: string, clientId: string): Promise<void> {
     return;
   }
 
-  // Stage 2 — audit. Move status to "auditing" so the UI reflects the stage.
+  // Stage 2 - audit. Move status to "auditing" so the UI reflects the stage.
   await prisma.call.update({
     where: { id: callId },
     data: { processingStatus: "auditing", processingStartedAt: new Date() },
@@ -259,7 +259,7 @@ async function processCall(callId: string, clientId: string): Promise<void> {
       if (currentRetry < MAX_RETRIES) {
         const nextRetry = currentRetry + 1;
         const backoff = retryBackoffMs(currentRetry);
-        log(`Audit failed (transient) — scheduling retry ${nextRetry}/${MAX_RETRIES} in ${Math.round(backoff / 1000)}s`, {
+        log(`Audit failed (transient) - scheduling retry ${nextRetry}/${MAX_RETRIES} in ${Math.round(backoff / 1000)}s`, {
           callId,
           code,
           msg,
@@ -280,8 +280,8 @@ async function processCall(callId: string, clientId: string): Promise<void> {
         });
         return;
       }
-      // Exhausted retries — fall through to permanent failure.
-      log(`Audit failed — retries exhausted (${MAX_RETRIES}/${MAX_RETRIES})`, { callId, code });
+      // Exhausted retries - fall through to permanent failure.
+      log(`Audit failed - retries exhausted (${MAX_RETRIES}/${MAX_RETRIES})`, { callId, code });
     }
 
     await failProcessingLock(callId, `AUDIT ${code}: ${msg}`);
@@ -311,7 +311,7 @@ async function loop(): Promise<void> {
     // Calculate how many new jobs we can take.
     const slotsAvailable = CONCURRENCY - activeCount;
     if (slotsAvailable <= 0) {
-      // All slots full — wait a bit for one to finish.
+      // All slots full - wait a bit for one to finish.
       await sleep(500);
       continue;
     }
@@ -320,7 +320,7 @@ async function loop(): Promise<void> {
     try {
       jobs = await claimBatch(slotsAvailable);
     } catch (e) {
-      logErr("Failed to claim jobs — sleeping before retry.", e);
+      logErr("Failed to claim jobs - sleeping before retry.", e);
       await sleep(POLL_MS);
       continue;
     }
@@ -337,7 +337,7 @@ async function loop(): Promise<void> {
       processCall(job.id, job.clientId)
         .catch((e) => {
           logErr(`Unexpected error processing call ${job.id}`, e);
-          // Last-resort safety — mark the call failed so it doesn't sit half-locked.
+          // Last-resort safety - mark the call failed so it doesn't sit half-locked.
           return failProcessingLock(
             job.id,
             e instanceof Error ? e.message : "Unhandled worker error.",
@@ -359,7 +359,7 @@ async function loop(): Promise<void> {
     }
   }
 
-  log("Queue worker shutting down — disconnecting Prisma.");
+  log("Queue worker shutting down - disconnecting Prisma.");
   await prisma.$disconnect().catch(() => {});
 }
 
@@ -367,7 +367,7 @@ function installSignalHandlers(): void {
   const handle = (sig: string) => {
     if (shuttingDown) return;
     shuttingDown = true;
-    log(`Received ${sig} — finishing ${activeCount} in-flight job(s) then exiting.`);
+    log(`Received ${sig} - finishing ${activeCount} in-flight job(s) then exiting.`);
   };
   process.on("SIGINT", () => handle("SIGINT"));
   process.on("SIGTERM", () => handle("SIGTERM"));

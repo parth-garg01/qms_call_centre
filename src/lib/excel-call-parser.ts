@@ -207,8 +207,8 @@ export function parseCallExcel(buffer: Buffer): ParseResult {
     const rowNumber = idx + 2; // +2 for header row + 1-based
     const audioUrl = findValue(raw, AUDIO_URL_KEYS);
     if (!audioUrl) {
-      // skip silently per spec — but report as skipped
-      errors.push({ row: rowNumber, message: "Empty audio URL — skipped." });
+      // skip silently per spec - but report as skipped
+      errors.push({ row: rowNumber, message: "Empty audio URL - skipped." });
       return;
     }
 

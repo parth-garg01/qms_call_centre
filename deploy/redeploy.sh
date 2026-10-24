@@ -49,7 +49,7 @@ cd "$REPO_DIR"
 REPO_OWNER=$(stat -c '%U' "$REPO_DIR" 2>/dev/null || echo unknown)
 if [[ $EUID -eq 0 && "$REPO_OWNER" != "root" ]]; then
   echo "ERROR: $REPO_DIR is owned by '$REPO_OWNER' but you're running as root." >&2
-  echo "       Don't use sudo — re-run as that user:" >&2
+  echo "       Don't use sudo - re-run as that user:" >&2
   echo "         su - $REPO_OWNER -c 'cd $REPO_DIR && bash deploy/redeploy.sh $*'" >&2
   exit 1
 fi

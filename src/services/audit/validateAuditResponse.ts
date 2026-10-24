@@ -173,7 +173,7 @@ export function validateAuditResponse(
       continue;
     }
     if (validatedById.has(parameter.id)) {
-      warnings.push(`Duplicate score for parameter "${parameter.parameterName}" — using first.`);
+      warnings.push(`Duplicate score for parameter "${parameter.parameterName}" - using first.`);
       continue;
     }
 
@@ -210,7 +210,7 @@ export function validateAuditResponse(
   // Back-fill any parameters the model missed.
   for (const p of ctx.parameters) {
     if (validatedById.has(p.id)) continue;
-    warnings.push(`Parameter "${p.parameterName}" missing from response — marked not_found.`);
+    warnings.push(`Parameter "${p.parameterName}" missing from response - marked not_found.`);
     validatedById.set(p.id, {
       parameterId: p.id,
       parameterName: p.parameterName,

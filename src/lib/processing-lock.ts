@@ -49,10 +49,10 @@ export async function acquireProcessingLock(
         { processingStatus: null },
         { processingStatus: "idle" },
         { processingStatus: "failed" },
-        // queued by Excel import — manual action allowed as a fallback if
+        // queued by Excel import - manual action allowed as a fallback if
         // the background queue worker isn't running.
         { processingStatus: "uploaded" },
-        // stale lock — previous run never released within 30 min
+        // stale lock - previous run never released within 30 min
         { processingStartedAt: { lt: staleCutoff } },
       ],
     },

@@ -24,7 +24,7 @@ export async function GET(request: Request, { params }: Params) {
 
   const provider = getStorageProvider();
 
-  // Prefer a CDN-fronted public URL when the provider exposes one — skips
+  // Prefer a CDN-fronted public URL when the provider exposes one - skips
   // both the Next proxy and the presign roundtrip, and plays nicely with
   // edge caches.
   const publicUrl = provider.getPublicUrl(call.audioPath);

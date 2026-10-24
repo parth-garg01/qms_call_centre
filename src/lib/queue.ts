@@ -76,7 +76,7 @@ async function getQueues(): Promise<Queues | null> {
         webhook: new Queue(QUEUE_NAMES.webhook, {
           connection: conn as never,
           defaultJobOptions: {
-            // 8 attempts over ~24h with exponential backoff — Stripe-style.
+            // 8 attempts over ~24h with exponential backoff - Stripe-style.
             attempts: 8,
             backoff: { type: "exponential", delay: 30_000 },
             removeOnComplete: { count: 5000, age: 7 * 24 * 3600 },
@@ -144,7 +144,7 @@ export async function enqueueWebhookDelivery(
   const queues = await getQueues();
   if (!queues) return false;
   await queues.webhook.add("deliver", data, {
-    // Idempotent at the (webhookId, deliveryId) level — same delivery row
+    // Idempotent at the (webhookId, deliveryId) level - same delivery row
     // can't be enqueued twice.
     jobId: `webhook:${data.deliveryId}`,
   });

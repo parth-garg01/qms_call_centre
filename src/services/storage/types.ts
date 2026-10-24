@@ -50,13 +50,13 @@ export interface StorageProvider {
   }>;
 
   // Get a signed URL the browser can hit directly. Returns null for providers
-  // that don't support presigned downloads (LocalProvider) — caller must
+  // that don't support presigned downloads (LocalProvider) - caller must
   // proxy via /api/calls/[id]/audio.
   getDownloadUrl(key: string, opts?: { expiresIn?: number }): Promise<string | null>;
 
   // If the provider has a public, cacheable URL for the object (CDN base
   // configured), return it. Otherwise null. Callers should prefer this over
-  // getDownloadUrl when available — no presigning roundtrip, plays nicely
+  // getDownloadUrl when available - no presigning roundtrip, plays nicely
   // with CDN caches.
   getPublicUrl(key: string): string | null;
 

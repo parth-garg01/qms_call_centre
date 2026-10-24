@@ -15,7 +15,7 @@ interface Props {
   sarvamKeyConfigured: boolean;
   sarvamModel: string;
   sarvamUseBatch: boolean;
-  /** "transcribing" | "auditing" | "processing_demo" — null means idle. */
+  /** "transcribing" | "auditing" | "processing_demo" - null means idle. */
   processingStatus?: string | null;
   processingFailed?: boolean;
   processingError?: string | null;
@@ -168,7 +168,7 @@ export function TranscriptionPanel({
         <FileText className="h-4 w-4" /> Transcription
       </div>
       <p className="mb-3 text-xs text-slate-500">
-        Live transcription with speaker diarization. Longer calls may take several minutes —
+        Live transcription with speaker diarization. Longer calls may take several minutes -
         keep this page open while it runs.
       </p>
       {longCall ? (

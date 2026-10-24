@@ -255,7 +255,7 @@ async function main() {
     select: { id: true, name: true, slug: true },
   });
   console.log(
-    `Client renamed: ${JSON.stringify(renamed)}${slugClash ? "  (slug kept — collision with another client)" : ""}`,
+    `Client renamed: ${JSON.stringify(renamed)}${slugClash ? "  (slug kept - collision with another client)" : ""}`,
   );
 
   // --- 2. Index existing parameters by (normalized category, name) --------

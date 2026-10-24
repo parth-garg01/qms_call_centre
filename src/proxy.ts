@@ -58,7 +58,7 @@ export async function proxy(request: NextRequest) {
 
   // /api/v1/* uses Bearer API-key authentication enforced inside each route
   // handler (verifyApiKeyHeader). The session-cookie proxy must NOT redirect
-  // those requests to /login — external integrators don't have a session.
+  // those requests to /login - external integrators don't have a session.
   if (pathname.startsWith("/api/v1/")) {
     return NextResponse.next();
   }

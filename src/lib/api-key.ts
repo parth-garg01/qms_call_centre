@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { ApiError } from "@/server/api/errors";
 import { API_KEY_PREFIX, generateApiKey, type GeneratedApiKey } from "@/lib/credentials";
 
-// Re-export the pure crypto helper for backwards compatibility — earlier
+// Re-export the pure crypto helper for backwards compatibility - earlier
 // callers (Phase 3) imported generateApiKey from here. New CLI / non-server
 // code should import directly from `@/lib/credentials`.
 export { generateApiKey };
@@ -68,7 +68,7 @@ export async function verifyApiKeyHeader(authHeader: string | null): Promise<Ver
     throw new ApiError("UNAUTHORIZED", "API key not recognised.");
   }
 
-  // Fire-and-forget lastUsedAt update — never block the request.
+  // Fire-and-forget lastUsedAt update - never block the request.
   void prisma.apiKey
     .update({ where: { id: row.id }, data: { lastUsedAt: new Date() } })
     .catch(() => {});

@@ -1,4 +1,4 @@
-# UI Conversion Audit — `/html` → Next.js
+# UI Conversion Audit - `/html` → Next.js
 
 This document records how the static HTML mocks under `/root/qms_demo/html`
 were converted into the production Next.js UI, and confirms the running app
@@ -29,10 +29,10 @@ The shared shell now uses the reference-style fixed `w-64` light sidebar,
 
 Visual primitives that the mocks repeated were extracted to:
 
-- `src/components/ui/pill.tsx` — colored badge pills.
-- `src/components/ui/score-pill.tsx` — AI / manual / audit-status pills.
-- `src/components/ui/sentiment-badge.tsx` — sentiment icon + label.
-- `src/components/ui/page-shell.tsx` — page padding wrapper and `EmptyState`.
+- `src/components/ui/pill.tsx` - colored badge pills.
+- `src/components/ui/score-pill.tsx` - AI / manual / audit-status pills.
+- `src/components/ui/sentiment-badge.tsx` - sentiment icon + label.
+- `src/components/ui/page-shell.tsx` - page padding wrapper and `EmptyState`.
 
 Calls ingestion now lives in native Next.js code:
 
@@ -79,36 +79,36 @@ future UI work can trace which mock each page came from.
 The conversion is faithful to the mocks except where the mock would have
 required fabricating data we don't have:
 
-- **Dashboard "Trainings (by Weekly)" SVG bar chart** — replaced with a
+- **Dashboard "Trainings (by Weekly)" SVG bar chart** - replaced with a
   DB-backed score summary and an empty trend state. The schema has no weekly
   buckets, and rendering hardcoded bars would be misleading.
-- **Dashboard scoreboard "Trend %" column** — omitted; no historical
+- **Dashboard scoreboard "Trend %" column** - omitted; no historical
   comparison data exists in the schema yet.
-- **Dashboard KPI deltas / "vs last month" copy** — omitted. Month-over-month
+- **Dashboard KPI deltas / "vs last month" copy** - omitted. Month-over-month
   comparison data is not stored, so showing deltas would fabricate metrics.
-- **Calls listing pagination control** — represented as a single active page
+- **Calls listing pagination control** - represented as a single active page
   for the current DB-backed result set. Real pagination can be added behind
   the same filter bar.
 - **Calls listing inline `Manual Score` text input and `Manual Disposition`
-  select** — replaced with read-only pills. Editing is done via the manual
+  select** - replaced with read-only pills. Editing is done via the manual
   review form on the call detail page, which is a single source of truth
   that also writes the audit event and updates `calls.final_score`.
-- **Call detail "Insights / Notes (2)" tab badges** — show real counts.
+- **Call detail "Insights / Notes (2)" tab badges** - show real counts.
   Empty tabs render a clean empty state.
-- **Call detail audio waveform** — rendered as a deterministic SVG bar
+- **Call detail audio waveform** - rendered as a deterministic SVG bar
   pattern so SSR markup matches CSR. Event markers map to real
   `call_events` rows positioned by their `occurredAt` relative to
   `callStartedAt`.
-- **Parameter builder "Sub Parameters"** — the schema is flat
+- **Parameter builder "Sub Parameters"** - the schema is flat
   (`ClientParameter` has `parameterCategory` + `parameterName`). The grouped
   display uses `rowSpan` on the category column to match the visual
   grouping in `QA.html`.
-- **Parameter builder "Process / Campaign" filters** — the schema doesn't
+- **Parameter builder "Process / Campaign" filters** - the schema doesn't
   store a `process` field on parameters. Filtering is by `parameterCategory`
   instead. Client filtering remains.
-- **Sidebar "QMS Audit" expandable group** — converted into the shared app
+- **Sidebar "QMS Audit" expandable group** - converted into the shared app
   shell. The group is always open, matching the visible reference state.
-- **Calls topbar upload button** — converted. It opens a native React dialog
+- **Calls topbar upload button** - converted. It opens a native React dialog
   for multi-file local audio upload. This is local demo ingestion only; it
   does not implement dialer integration, live STT, or live OpenRouter.
 
@@ -187,7 +187,7 @@ mv /root/qms_demo/html_BACKUP_DO_NOT_USE /root/qms_demo/html
 ```
 
 Expected output: `next build` succeeds, all six routes return 200 (or 307
-for `/dashboard` if the test isn't authenticated — see the smoke test in
+for `/dashboard` if the test isn't authenticated - see the smoke test in
 the README for an authenticated check).
 
 After this verification the `html/` folder can be deleted permanently.

@@ -58,9 +58,9 @@ script returns `MODEL_NOT_FOUND` cleanly and exits non-zero.
 
 Supported `--model-key`:
 
-- `indicconformer` — HF Transformers `AutoModel.from_pretrained(..., trust_remote_code=True)`
-- `faster-whisper-small` — `faster_whisper.WhisperModel`
-- `faster-whisper-base` — optional smaller fallback using `faster_whisper.WhisperModel`
+- `indicconformer` - HF Transformers `AutoModel.from_pretrained(..., trust_remote_code=True)`
+- `faster-whisper-small` - `faster_whisper.WhisperModel`
+- `faster-whisper-base` - optional smaller fallback using `faster_whisper.WhisperModel`
 
 Audio is always converted to 16 kHz mono WAV via `ffmpeg` before model load.
 

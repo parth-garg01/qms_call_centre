@@ -29,7 +29,7 @@ function parseArgs(argv: string[]): { callId: string | null } {
 }
 
 function fmt2(n: number | null | undefined): string {
-  if (n == null || !Number.isFinite(n)) return "—";
+  if (n == null || !Number.isFinite(n)) return "-";
   return n.toFixed(2);
 }
 

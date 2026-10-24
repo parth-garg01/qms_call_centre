@@ -353,7 +353,7 @@ function CategoryGroup({
               <div className="text-xs text-slate-500 mt-1 max-w-2xl">{p.parameterDescription}</div>
               {hasHistory ? (
                 <div className="text-[11px] text-amber-700 mt-1">
-                  Used in {p.scoreCount} audit{p.scoreCount === 1 ? "" : "s"} — deactivate instead of delete.
+                  Used in {p.scoreCount} audit{p.scoreCount === 1 ? "" : "s"} - deactivate instead of delete.
                 </div>
               ) : null}
             </td>

@@ -1,5 +1,5 @@
 // Base path the app is mounted under (e.g. "/qms" in production, ""
-// for local dev). Set via NEXT_PUBLIC_BASE_PATH at build time — Next.js bakes
+// for local dev). Set via NEXT_PUBLIC_BASE_PATH at build time - Next.js bakes
 // the value into both server and client bundles, so referencing process.env
 // here is safe in either runtime.
 //
@@ -10,7 +10,7 @@
 //   - any hand-built absolute URL
 //
 // You do NOT need the helper for next/link, next/navigation's redirect(),
-// next/image src values, or _next/* asset URLs — Next prepends basePath for
+// next/image src values, or _next/* asset URLs - Next prepends basePath for
 // those automatically.
 
 const rawBasePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").trim();

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local IndicConformer fallback STT — interface-only stub.
+"""Local IndicConformer fallback STT - interface-only stub.
 
 Same JSON contract as transcribe_indicwhisper.py. The Node adapter accepts
 this script today but does NOT call it by default (STT_ENABLE_FALLBACK=false).

@@ -1,4 +1,4 @@
-# Deployment Runbook — EC2 (one-shot bootstrap)
+# Deployment Runbook - EC2 (one-shot bootstrap)
 
 Deploy QMS to a fresh Ubuntu EC2 instance in **one command**. The script is
 idempotent and safe to re-run.
@@ -7,13 +7,13 @@ idempotent and safe to re-run.
 
 | Resource | Minimum | Recommended |
 | --- | --- | --- |
-| Instance | `t3.small` (2 GB RAM) — auto-swap will let `t3.micro` work but the build is slow | `t3.medium` (4 GB RAM) for comfortable builds |
+| Instance | `t3.small` (2 GB RAM) - auto-swap will let `t3.micro` work but the build is slow | `t3.medium` (4 GB RAM) for comfortable builds |
 | Disk | 12 GB free (node_modules + .next + Postgres data + swap) | 20 GB+ |
 | OS | Ubuntu 22.04 / 24.04 LTS (or Debian 12) | Ubuntu 24.04 LTS |
 | Network | inbound 22 (ssh) + 80 (http) | + 443 if you terminate TLS on the box |
 
 If total swap is < 2 GB, the bootstrap auto-creates a 4 GB `/swapfile` and
-persists it in `/etc/fstab` with `vm.swappiness=10`. This is required —
+persists it in `/etc/fstab` with `vm.swappiness=10`. This is required -
 Next 16's Turbopack build needs ~2 GB resident memory and t2/t3.micro ship
 with 1 GB RAM and zero swap, which the kernel OOM-kills mid-build.
 
@@ -62,7 +62,7 @@ That's it. Browse to `http://<host>/qms/login` and log in with
    nginx, ffmpeg, jq, build-essential, git, curl, ca-certificates, gnupg).
 3. Creates a 4 GB `/swapfile` when total swap < 2 GB (persisted in
    `/etc/fstab`, `vm.swappiness=10`).
-4. Loads `.env`. If missing, copies `.env.example` and **stops** — fill it
+4. Loads `.env`. If missing, copies `.env.example` and **stops** - fill it
    in and re-run.
 5. Generates a fresh `APP_SECRET` into `.env` when the value is empty / a
    placeholder / shorter than 32 chars.
@@ -104,7 +104,7 @@ The script reads these directly from `.env`:
 | `NEXT_PUBLIC_BASE_PATH` | URL prefix baked into the bundle. Defaults to `/qms`. |
 | `APP_BASE_URL` | Absolute public URL of the app. Used in OpenAPI + webhooks. |
 
-Optional STT / LLM / storage keys are passed through unchanged — see
+Optional STT / LLM / storage keys are passed through unchanged - see
 `.env.example` for the full list.
 
 ## Re-deploying after a git pull
@@ -142,13 +142,13 @@ sudo systemctl restart postgresql
 npx prisma migrate status
 ```
 
-## Routing invariants — DO NOT BREAK
+## Routing invariants - DO NOT BREAK
 
 The Next.js bundle is built with `basePath=/qms`, so the upstream
 **expects** the `/qms` prefix on every request, including
 `/qms/_next/*`. `deploy/nginx.conf` reflects this:
 
-- `location = /qms` → proxy (no 301 — Next's strict-slash policy
+- `location = /qms` → proxy (no 301 - Next's strict-slash policy
   would 308 back into a loop).
 - `location ^~ /qms/` → prefix-passthrough proxy
   (`proxy_pass http://127.0.0.1:3010;` with no URI).
@@ -174,7 +174,7 @@ when you want a self-contained container.
 
 ## Troubleshooting
 
-- **`npm run build` says `Killed`** — kernel OOM-killed the build. Means
+- **`npm run build` says `Killed`** - kernel OOM-killed the build. Means
   swap wasn't set up or the heap cap wasn't raised. Re-run
   `sudo bash deploy/bootstrap-ec2.sh` (it'll add 4 GB swap + pass
   `NODE_OPTIONS=--max-old-space-size=4096`). For a manual recovery:
@@ -185,28 +185,28 @@ when you want a self-contained container.
   echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
   NODE_OPTIONS="--max-old-space-size=4096" npm run build
   ```
-- **`EACCES: permission denied` on `.env` or `.next/`** — repo got
+- **`EACCES: permission denied` on `.env` or `.next/`** - repo got
   root-owned. Means you ran `redeploy.sh` or `npm` under `sudo`. Fix:
   `sudo chown -R $USER:$USER /opt/qms` then re-run `bash deploy/redeploy.sh`
   without sudo.
-- **`npm error EACCES … /root/.npm/_cacache/…`** — `sudo npm` (or an older
+- **`npm error EACCES … /root/.npm/_cacache/…`** - `sudo npm` (or an older
   bootstrap without `sudo -H`) left a root-owned npm cache that the deploy
   user can't reach (`/root` is mode 700). The current bootstrap uses
   `sudo -H -u $DEPLOY_USER`, which makes npm write to
   `~$DEPLOY_USER/.npm` instead. If you're recovering from the older
   bootstrap, run `sudo rm -rf /root/.npm` once and re-run the bootstrap.
-- **Bootstrap exits after creating `.env`** — that's expected on first run.
+- **Bootstrap exits after creating `.env`** - that's expected on first run.
   Fill in the secrets and re-run `sudo bash deploy/bootstrap-ec2.sh`.
-- **Nginx install skipped with a `default_server` warning** — another site
+- **Nginx install skipped with a `default_server` warning** - another site
   on `:80` already owns `default_server`. Either disable it and re-run,
   or inline `deploy/nginx.snippet.conf` into that vhost.
-- **`prisma migrate deploy` fails with `P1000`** — the Postgres role
+- **`prisma migrate deploy` fails with `P1000`** - the Postgres role
   password in `DATABASE_URL` doesn't match the actual role password.
   Re-run the bootstrap; it will reset the role password from `.env`.
-- **PM2 process restarting on every request** — `pm2 logs qms-web`
+- **PM2 process restarting on every request** - `pm2 logs qms-web`
   usually points at a missing env var (`APP_SECRET` empty, Sentry DSN
   malformed). Fix `.env` and `pm2 reload ecosystem.config.js --update-env`.
-- **413 Request Entity Too Large** on audio upload — nginx
+- **413 Request Entity Too Large** on audio upload - nginx
   `client_max_body_size` is too small. The shipped vhost sets `200M`;
   raise it and `sudo nginx -t && sudo systemctl reload nginx`.
 
@@ -217,7 +217,7 @@ when you want a self-contained container.
   to the deploy user.
 - STT defaults to Deepgram (`STT_PROVIDER=deepgram`). For Sarvam or local
   Python STT, see `.env.example` and `stt/README.md`. The bootstrap does
-  not download local model weights — run `scripts/stt/download-models.sh`
+  not download local model weights - run `scripts/stt/download-models.sh`
   manually if you need them.
 - The OpenRouter audit pipeline receives transcript text only; raw audio
   never leaves the STT path.

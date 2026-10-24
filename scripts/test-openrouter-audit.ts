@@ -1,5 +1,5 @@
 // Direct test of the OpenRouter audit LLM using the EXACT .env config
-// (model + fallback + JSON mode). No database needed — isolates "is the
+// (model + fallback + JSON mode). No database needed - isolates "is the
 // configured audit model actually reachable and returning usable JSON?".
 //
 // Usage: npm run test:audit-llm
@@ -48,7 +48,7 @@ async function main(): Promise<number> {
   if (!outcome.ok) {
     console.error(`\nFAILED in ${elapsed}s`);
     console.error(`  code    : ${outcome.code}`);
-    console.error(`  status  : ${outcome.status ?? "—"}`);
+    console.error(`  status  : ${outcome.status ?? "-"}`);
     console.error(`  message : ${outcome.message}`);
     return 1;
   }
@@ -64,7 +64,7 @@ async function main(): Promise<number> {
     );
   }
   if (!outcome.parsed) {
-    console.warn("\nWARNING: model returned content but not parseable JSON — audit validation would reject this.");
+    console.warn("\nWARNING: model returned content but not parseable JSON - audit validation would reject this.");
     return 3;
   }
   return 0;

@@ -144,7 +144,7 @@ export const auditsRouter = {
       });
 
       // Enqueue in parallel. enqueueCallProcessing no-ops when Redis isn't
-      // configured — the polling worker covers that case.
+      // configured - the polling worker covers that case.
       await Promise.all(
         calls.map((c) => enqueueCallProcessing({ callId: c.id, clientId })),
       );

@@ -66,7 +66,7 @@ export default async function SettingsPage() {
               <Pill tone={aiKey ? "green" : "slate"}>{aiKey ? "Loaded" : "Not set"}</Pill>
             </Row>
             <Row icon={<Sparkles className="h-4 w-4" />} label="AI audit status">
-              <Pill tone="yellow">Placeholder — not wired to a live model</Pill>
+              <Pill tone="yellow">Placeholder - not wired to a live model</Pill>
             </Row>
           </Section>
 

@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: "QMS — Quality Management System",
+  title: "QMS - Quality Management System",
   description: "Contact-centre call audits, parameters, and reviews.",
 };
 

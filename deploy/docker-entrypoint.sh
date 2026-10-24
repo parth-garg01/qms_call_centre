@@ -2,7 +2,7 @@
 # Docker entrypoint for the container produced by Dockerfile.
 #
 # Env knobs (all optional except DATABASE_URL):
-#   DATABASE_URL              required — Postgres connection string
+#   DATABASE_URL              required - Postgres connection string
 #   RUN_DB_MIGRATE=true       run `npx prisma migrate deploy` (default: true)
 #   RUN_DB_SEED=true          run `npm run db:seed` after migrations
 #   RUN_PARAMETER_IMPORTS=true also run npm run import:{standard,beetel}-parameters
@@ -13,7 +13,7 @@ if [ -z "$DATABASE_URL" ]; then
   exit 1
 fi
 
-# Wait briefly for the DB host to accept connections — handles compose
+# Wait briefly for the DB host to accept connections - handles compose
 # `depends_on` start-order races on cold boot.
 if command -v nc >/dev/null 2>&1; then
   DB_HOSTPORT=$(echo "$DATABASE_URL" | sed -nE 's|.*@([^:/]+):?([0-9]*)/.*|\1 \2|p')
@@ -24,7 +24,7 @@ if command -v nc >/dev/null 2>&1; then
   while ! nc -z "$DB_H" "$DB_P" 2>/dev/null; do
     i=$((i + 1))
     if [ "$i" -ge 30 ]; then
-      echo "WARN: DB at $DB_H:$DB_P still not reachable after 30s — continuing anyway." >&2
+      echo "WARN: DB at $DB_H:$DB_P still not reachable after 30s - continuing anyway." >&2
       break
     fi
     sleep 1

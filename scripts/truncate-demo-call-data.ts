@@ -8,7 +8,7 @@
 //          transcript_segment_corrections, ai_audits, ai_parameter_scores,
 //          call_events, ai_insights, manual_reviews, call_notes.
 //
-// (The schema does not have a manual_parameter_scores table — manual reviews
+// (The schema does not have a manual_parameter_scores table - manual reviews
 //  store a single aggregate score per call. If that ever changes, add the new
 //  table here.)
 //

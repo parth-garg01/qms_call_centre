@@ -8,7 +8,7 @@
 //   5. saveAuditResult(...)                 -> writes ai_audits / ai_parameter_scores
 //                                              / call_events / calls (in a tx)
 //
-// Binary scoring is enforced inside validateAuditResponse — nothing
+// Binary scoring is enforced inside validateAuditResponse - nothing
 // downstream may trust raw model output.
 
 export { getClientAuditParameters } from "./getClientAuditParameters";

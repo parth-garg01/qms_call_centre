@@ -54,7 +54,7 @@ export class LiveAuditError extends Error {
  *   2. Load active client parameters.
  *   3. Validate preconditions (transcript exists, parameters exist,
  *      OpenRouter API key present).
- *   4. Build system + user prompt (TEXT ONLY — no audio).
+ *   4. Build system + user prompt (TEXT ONLY - no audio).
  *   5. Call OpenRouter chat completions.
  *   6. Parse JSON safely.
  *   7. Validate via shared validator (binary scoring enforced).

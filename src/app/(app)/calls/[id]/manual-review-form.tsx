@@ -65,7 +65,7 @@ export function ManualReviewForm({ callId, initial }: { callId: string; initial:
               defaultValue={initial.disposition ?? ""}
               className="h-9 w-full rounded-lg border border-slate-200 px-2 text-sm bg-white"
             >
-              <option value="">—</option>
+              <option value="">-</option>
               <option value="Good">Good</option>
               <option value="Moderate">Moderate</option>
               <option value="Bad">Bad</option>
@@ -89,7 +89,7 @@ export function ManualReviewForm({ callId, initial }: { callId: string; initial:
                 input.value = "";
               }
             }}
-            placeholder="—"
+            placeholder="-"
             className="h-9 w-full rounded-lg border border-slate-200 px-3 text-sm"
           />
         </FormRow>

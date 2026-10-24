@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Collect every diagnostic relevant to a QMS deployment (Node + PM2 +
-# Postgres + nginx). Read-only — never edits config. Safe to re-run.
+# Postgres + nginx). Read-only - never edits config. Safe to re-run.
 #
 #   bash deploy/diagnose.sh                  # to stdout
 #   bash deploy/diagnose.sh > /tmp/qms-diag.txt

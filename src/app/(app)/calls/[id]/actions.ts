@@ -208,7 +208,7 @@ export async function runMockAudit(callId: string): Promise<MockAuditDebugInfo> 
 export interface LiveAuditActionResult {
   ok: boolean;
   errorCode?: string;
-  /** Safe, user-facing error message — never contains the API key or raw response. */
+  /** Safe, user-facing error message - never contains the API key or raw response. */
   errorMessage?: string;
   auditId?: string;
   auditRunNo?: number;

@@ -17,7 +17,7 @@
 #       ffmpeg, jq, build-essential, git, curl, ca-certificates, gnupg.
 #   1b. Creates a 4 GB /swapfile when total swap < 2 GB (so the Turbopack
 #       build doesn't get OOM-killed on t2/t3.micro).
-#   2.  Loads .env (copies from .env.example and STOPS if missing — fill it
+#   2.  Loads .env (copies from .env.example and STOPS if missing - fill it
 #       in and re-run).
 #   3.  Generates a fresh APP_SECRET into .env if it's empty or a placeholder.
 #   4.  Parses DATABASE_URL, creates the Postgres role + database, sets the
@@ -124,7 +124,7 @@ if [[ $SKIP_SYSTEM -eq 0 ]]; then
     curl ca-certificates gnupg build-essential git ffmpeg jq \
     nginx postgresql postgresql-contrib
 
-  # NodeSource Node 22 LTS — only install if we don't already have node >= 22
+  # NodeSource Node 22 LTS - only install if we don't already have node >= 22
   NEEDS_NODE=1
   if command -v node >/dev/null 2>&1; then
     cur=$(node -v | sed 's/^v//' | cut -d. -f1)
@@ -168,16 +168,16 @@ if [[ "${TOTAL_SWAP_MB:-0}" -lt 2048 && ! -e /swapfile ]]; then
   grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
   sysctl -w vm.swappiness=10 >/dev/null
   grep -q '^vm.swappiness' /etc/sysctl.conf || echo 'vm.swappiness=10' >> /etc/sysctl.conf
-  ok "swap on — total now $(free -m | awk '/^Swap:/ {print $2}') MB"
+  ok "swap on - total now $(free -m | awk '/^Swap:/ {print $2}') MB"
 else
-  note "swap already ok (${TOTAL_SWAP_MB:-0} MB) — not creating /swapfile"
+  note "swap already ok (${TOTAL_SWAP_MB:-0} MB) - not creating /swapfile"
 fi
 
 # ----- 2. .env -----
 ENV_FILE="$REPO_DIR/.env"
 if [[ ! -f "$ENV_FILE" ]]; then
   if [[ -f "$REPO_DIR/.env.example" ]]; then
-    log "No .env found — copying .env.example"
+    log "No .env found - copying .env.example"
     cp "$REPO_DIR/.env.example" "$ENV_FILE"
     chmod 600 "$ENV_FILE"
     warn ".env was just created from .env.example. Open it and fill in real"
@@ -252,7 +252,7 @@ log "Provisioning Postgres role + database"
 note "target: db='$DB_NAME', user='$DB_USER', host=$DB_HOST:$DB_PORT"
 
 if [[ "$DB_HOST" != "localhost" && "$DB_HOST" != "127.0.0.1" ]]; then
-  warn "DB host is $DB_HOST — not local. Skipping role/db creation; ensure it"
+  warn "DB host is $DB_HOST - not local. Skipping role/db creation; ensure it"
   warn "exists and is reachable before continuing."
 else
   # Single-quote escape for SQL literal (Postgres rule: '' for ').
@@ -370,7 +370,7 @@ else
   note "Skipping build (--no-build)"
 fi
 
-# Drop NODE_OPTIONS from the parent shell so PM2 doesn't inherit it —
+# Drop NODE_OPTIONS from the parent shell so PM2 doesn't inherit it -
 # the web + worker processes don't need 4 GB of heap.
 unset NODE_OPTIONS
 
@@ -384,7 +384,7 @@ if [[ $SKIP_PM2 -eq 0 ]]; then
     as_user bash -c 'cd "$1" && pm2 start ecosystem.config.js --update-env' _ "$REPO_DIR"
   fi
   as_user pm2 save
-  # Persist the PM2 daemon across reboots — `pm2 startup systemd` installs a
+  # Persist the PM2 daemon across reboots - `pm2 startup systemd` installs a
   # systemd unit that runs PM2 as $DEPLOY_USER. The install command itself
   # needs root, which is what we are.
   if command -v systemctl >/dev/null 2>&1; then
@@ -420,7 +420,7 @@ if [[ $SKIP_NGINX -eq 0 ]]; then
     SERVER_NAME="$(echo "$APP_BASE_URL_RAW" \
       | sed -E 's|^[a-z]+://||; s|/.*$||; s|:[0-9]+$||')"
   fi
-  # `_` is nginx's "match any Host" placeholder — fine for first-time
+  # `_` is nginx's "match any Host" placeholder - fine for first-time
   # bootstrap before DNS is set up; later runs read APP_BASE_URL and pin
   # the server_name to the real subdomain.
   SERVER_NAME="${SERVER_NAME:-_}"
@@ -434,7 +434,7 @@ if [[ $SKIP_NGINX -eq 0 ]]; then
 
   install -m 0644 -D "$RENDERED_VHOST" "$NGINX_AVAIL"
   ln -sfn "$NGINX_AVAIL" "$NGINX_ENABLED"
-  # Only remove the stock default site — never anything else.
+  # Only remove the stock default site - never anything else.
   [[ -e "$DEFAULT_SITE" ]] && rm -f "$DEFAULT_SITE"
   nginx -t
   systemctl reload nginx
@@ -466,10 +466,10 @@ set -e
 cat <<EOF
 
 ${BOLD}Done.${RESET}  ${DIM}Next steps:${RESET}
-  ${DIM}— browse to:${RESET}  http://${HOST_IP:-<host>}${BASE_PATH}/login
-  ${DIM}— log in with APP_PASSWORD from .env${RESET}
-  ${DIM}— deploy/redeploy.sh           ${RESET}# re-run after a git pull
-  ${DIM}— deploy/diagnose.sh           ${RESET}# full status snapshot
-  ${DIM}— pm2 status / pm2 logs $APP_NAME${RESET}
+  ${DIM}- browse to:${RESET}  http://${HOST_IP:-<host>}${BASE_PATH}/login
+  ${DIM}- log in with APP_PASSWORD from .env${RESET}
+  ${DIM}- deploy/redeploy.sh           ${RESET}# re-run after a git pull
+  ${DIM}- deploy/diagnose.sh           ${RESET}# full status snapshot
+  ${DIM}- pm2 status / pm2 logs $APP_NAME${RESET}
 
 EOF

@@ -9,7 +9,7 @@ Short operator guide for running the QMS demo.
   **IndicConformer → faster-whisper-small**.
 - AI audit: **OpenRouter** Gemma (`google/gemma-4-31b-it:free`, fallback
   `google/gemma-4-26b-a4b-it:free`).
-- Audio is **never** sent to OpenRouter — only transcript text, metadata, and parameters.
+- Audio is **never** sent to OpenRouter - only transcript text, metadata, and parameters.
 
 ## 1. Login
 
@@ -32,8 +32,8 @@ Short operator guide for running the QMS demo.
 1. Click the call row to open Call Detail.
 2. In the right rail, click **Process Demo Call**.
 3. This runs:
-   - Step 1/2 — transcription (if missing)
-   - Step 2/2 — AI audit
+   - Step 1/2 - transcription (if missing)
+   - Step 2/2 - AI audit
 
 Keep this page open while processing.
 
@@ -53,7 +53,7 @@ processing unless necessary.
 
 1. The transcript shows each segment with a speaker label and a dropdown.
 2. Speaker labels are estimated. If a segment has the wrong speaker, pick the
-   correct one in the dropdown — only that line changes. Text, timestamps,
+   correct one in the dropdown - only that line changes. Text, timestamps,
    and confidence are preserved.
 3. After any correction, click **Re-run AI Audit after speaker correction**
    so scoring uses the corrected labels.
@@ -85,7 +85,7 @@ The script is idempotent and preserves audit history for old parameters by
 In-app behaviour:
 
 - Add, edit, deactivate, or delete parameters.
-- **Delete** removes a parameter — only allowed when the parameter has never
+- **Delete** removes a parameter - only allowed when the parameter has never
   been used in an audit.
 - Parameters with audit history cannot be deleted: the delete icon is
   disabled and a banner reads:
@@ -101,7 +101,7 @@ A custom audit prompt can be saved per client; it is auto-versioned.
 ## 7. If processing seems stuck
 
 - A long call (5–10 minutes) on CPU can take several minutes to transcribe.
-  This is expected — wait. The blue progress box stays visible.
+  This is expected - wait. The blue progress box stays visible.
 - If the AI audit is rate-limited (OpenRouter free tier), the client retries
   with backoff. Total elapsed grows to ~2 min.
 - Only use **Reset processing state** if a previous run clearly failed/hung.
@@ -118,7 +118,7 @@ A custom audit prompt can be saved per client; it is auto-versioned.
 ## 9. What not to do
 
 - Do not refresh during active processing unless necessary.
-- Do not run multiple back-to-back audits on the same call — it just burns
+- Do not run multiple back-to-back audits on the same call - it just burns
   rate-limit quota.
 - Do not commit `.env`.
 - Do not print or screenshot the API keys.

@@ -108,7 +108,7 @@ export type StandardParameterSummary = {
 /**
  * Active standard parameters for a client's audit. Built from the standard
  * parameters that at least one ACTIVE sub-parameter for this client maps to.
- * If a client has no mappings yet the list is empty — callers can fall back
+ * If a client has no mappings yet the list is empty - callers can fall back
  * to the global list of standard parameters if they want a 10-slot scaffold.
  */
 export async function getActiveStandardParametersForClient(

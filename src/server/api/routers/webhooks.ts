@@ -74,7 +74,7 @@ export const webhooksRouter = {
         },
         select: WebhookSelect,
       });
-      // Plaintext secret only ever returned on create — like API keys.
+      // Plaintext secret only ever returned on create - like API keys.
       return { ...created, secret };
     },
   }),

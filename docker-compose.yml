@@ -27,7 +27,7 @@ services:
       - NEXT_PUBLIC_BASE_PATH=/qms
       - APP_BASE_URL=http://localhost:3010/qms
       
-      # Speech to Text Configuration (Sarvam uses the native Node SDK — no Python)
+      # Speech to Text Configuration (Sarvam uses the native Node SDK - no Python)
       - STT_PROVIDER=${STT_PROVIDER:-sarvam}
       - SARVAM_API_KEY=${SARVAM_API_KEY}
       - SARVAM_LANGUAGE_CODE=${SARVAM_LANGUAGE_CODE:-}
@@ -44,7 +44,7 @@ services:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - OPENROUTER_AUDIT_MODEL=${OPENROUTER_AUDIT_MODEL}
 
-      # Storage Config — set AUDIO_STORAGE_PROVIDER=s3 in your env to use S3.
+      # Storage Config - set AUDIO_STORAGE_PROVIDER=s3 in your env to use S3.
       - AUDIO_STORAGE_PROVIDER=${AUDIO_STORAGE_PROVIDER:-local}
       - AUDIO_STORAGE_PATH=/app/storage/audio
       - S3_BUCKET=${S3_BUCKET:-}

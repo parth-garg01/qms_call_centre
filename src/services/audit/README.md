@@ -21,7 +21,7 @@ audio file
    │
 ┌────────────────────────────────────────┐
 │ LLM audit (Gemma via OpenRouter)       │   ◄── google/gemma-4-31b-it:free
-│  Inputs (TEXT ONLY — no audio):        │
+│  Inputs (TEXT ONLY - no audio):        │
 │    - client parameters                 │
 │    - call metadata                     │
 │    - transcript                        │

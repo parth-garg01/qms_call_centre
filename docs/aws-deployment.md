@@ -1,11 +1,11 @@
-# AWS Production Deployment — QMS
+# AWS Production Deployment - QMS
 
 This builds on the existing Docker image (`Dockerfile`) and PM2 manifest
 (`ecosystem.config.js`), which already run **both** the web app
 (`qms-web`) and the background worker (`qms-queue-worker`) in one
 container and run DB migrations on startup (`deploy/docker-entrypoint.sh`).
 
-STT now runs through the native `sarvamai` Node SDK — **no Python, no model
+STT now runs through the native `sarvamai` Node SDK - **no Python, no model
 weights, no ffmpeg required** in the image. The container is pure Node.
 
 ---
@@ -31,7 +31,7 @@ weights, no ffmpeg required** in the image. The container is pure Node.
 ```
 
 Why split web and worker: the web tier scales with HTTP traffic; the worker
-tier scales with audio-processing backlog. Running multiple workers is safe —
+tier scales with audio-processing backlog. Running multiple workers is safe -
 `scripts/queue-worker.ts` claims calls with a guarded `updateMany`
 (`processingStatus: "uploaded"` → `"transcribing"`), so two workers never grab
 the same call. Tune throughput with `QUEUE_CONCURRENCY` (parallel calls per
@@ -53,14 +53,14 @@ scaling and the bundled Postgres container is not durable for production.
 | **S3 bucket** | Call recordings | **Private**. Playback uses presigned URLs. Region e.g. `ap-south-1`. |
 | **ECS Fargate** (or EC2) | Run web + worker tasks | Two services off the same image. |
 | **ALB** | TLS termination + routing to web | ACM cert; health check `GET /` (or `/login`). |
-| **Secrets Manager / SSM** | Hold APP_SECRET, DB password, API keys | Inject as task env — do not bake into the image. |
+| **Secrets Manager / SSM** | Hold APP_SECRET, DB password, API keys | Inject as task env - do not bake into the image. |
 | **CloudWatch Logs** | Container logs | `awslogs` driver. |
 | (optional) **ElastiCache Redis** | BullMQ queue | Only if you set `REDIS_URL` and switch to `worker:bullmq`. The Postgres-polling worker needs no Redis. |
 
 IAM: give the **worker** task role `s3:PutObject`, `s3:GetObject`,
 `s3:DeleteObject` on `arn:aws:s3:::YOUR_BUCKET/*`; the **web** task role needs
 `s3:GetObject` (+ `PutObject` for direct uploads). Prefer task roles over
-static `S3_ACCESS_KEY_ID/SECRET` — when running on ECS with a task role you can
+static `S3_ACCESS_KEY_ID/SECRET` - when running on ECS with a task role you can
 leave those two env vars empty and the AWS SDK picks up the role automatically.
 
 ---
@@ -118,20 +118,20 @@ The image entrypoint runs migrations then `pm2-runtime start
 ecosystem.config.js` (web + worker together). For the split-service model,
 **override the container command** so each service runs one role:
 
-- **WEB service** — let migrations run, start only the web app:
+- **WEB service** - let migrations run, start only the web app:
   ```
   command: ["sh","-c","npx prisma migrate deploy && pm2-runtime start node_modules/next/dist/bin/next --name qms-web -- start -H 0.0.0.0 -p 3010"]
   ```
   Set `RUN_DB_MIGRATE=false` on the worker so only one service migrates.
 
-- **WORKER service** — skip migrations, run only the worker:
+- **WORKER service** - skip migrations, run only the worker:
   ```
   RUN_DB_MIGRATE=false
   command: ["pm2-runtime","start","node_modules/tsx/dist/cli.mjs","--name","qms-queue-worker","--","--require","./scripts/_stt-preload.cjs","scripts/queue-worker.ts"]
   ```
 
 If you prefer the simplest path, run **one** ECS service with the default
-entrypoint (PM2 runs both roles in the task) and scale to a single task —
+entrypoint (PM2 runs both roles in the task) and scale to a single task -
 correct, just not independently scalable.
 
 ---
@@ -148,10 +148,10 @@ correct, just not independently scalable.
 
 ## Production hardening checklist
 
-- [ ] **Rotate all API keys** (Sarvam, OpenRouter, Deepgram, Gemini) — the ones
+- [ ] **Rotate all API keys** (Sarvam, OpenRouter, Deepgram, Gemini) - the ones
       currently in `.env` were committed/exposed previously. Store new ones in
       Secrets Manager, not the image.
-- [ ] **Top up Sarvam credits** — a smoke test returned `402 No credits
+- [ ] **Top up Sarvam credits** - a smoke test returned `402 No credits
       available`. STT will fail until the account has balance.
 - [ ] RDS in private subnets, security group allows only the ECS tasks.
 - [ ] S3 bucket: Block Public Access ON, default encryption (SSE-S3/KMS),

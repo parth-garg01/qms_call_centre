@@ -17,7 +17,7 @@ interface StandardParam {
   sortOrder: number;
 }
 
-// Final list — order is the display order in KPI cards and dropdowns.
+// Final list - order is the display order in KPI cards and dropdowns.
 const STANDARD_PARAMS: StandardParam[] = [
   {
     name: "Opening / Greeting",

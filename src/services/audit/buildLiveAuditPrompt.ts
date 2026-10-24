@@ -12,7 +12,7 @@ export const PROMPT_PLACEHOLDERS = {
 } as const;
 
 function fmtSeconds(seconds: number | null | undefined): string {
-  if (seconds == null || Number.isNaN(seconds)) return "—";
+  if (seconds == null || Number.isNaN(seconds)) return "-";
   const total = Math.round(seconds);
   const m = Math.floor(total / 60);
   const s = total % 60;
@@ -45,14 +45,14 @@ function buildParametersBlock(
 
 function buildCallMetadataBlock(call: AuditCallContext["call"], customerName: string): string {
   return `call_id:        ${call.externalCallId ?? call.id}
-campaign:       ${call.campaignName ?? "—"}
-agent:          ${call.agentName ?? "—"}
-team:           ${call.teamName ?? "—"}
+campaign:       ${call.campaignName ?? "-"}
+agent:          ${call.agentName ?? "-"}
+team:           ${call.teamName ?? "-"}
 direction:      ${call.direction}
-disposition:    ${call.disposition ?? "—"}
-language:       ${call.language ?? "—"}
-caller:         ${call.callerNumber ?? "—"}
-callee:         ${call.calleeNumber ?? "—"}
+disposition:    ${call.disposition ?? "-"}
+language:       ${call.language ?? "-"}
+caller:         ${call.callerNumber ?? "-"}
+callee:         ${call.calleeNumber ?? "-"}
 customer_name:  ${customerName}
 duration:       ${fmtSeconds(call.durationSeconds ?? null)}`;
 }
@@ -91,7 +91,7 @@ export const BINARY_SCORING_RULES = `Rules:
    in evidence_text if any exists, or set evidence_text to "evidence not found".
 6. Identify compliance issues, agent tone issues, customer emotion,
    empathy gaps, customer objections, script deviation, and possible rude
-   language or possible raised tone — only if the transcript clearly
+   language or possible raised tone - only if the transcript clearly
    supports it. You only see TEXT, not audio: if tone is uncertain, use
    event_type "possible_raised_tone" or "tone_issue" with confidence_score
    <= 0.5.
@@ -274,7 +274,7 @@ max_score, fail/not_found = 0. Never invent transcript content.`;
 /**
  * Generate the default prompt *template* for a client (placeholders intact),
  * for the editor preview on the parameters page. Does not contain any
- * call transcript — just the template that audits use.
+ * call transcript - just the template that audits use.
  */
 export function generateDefaultPromptForClient(input: {
   clientName: string;

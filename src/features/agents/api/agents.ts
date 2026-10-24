@@ -50,7 +50,7 @@ export async function getAgentsPageData(clientId: string): Promise<AgentsPageDat
   const ctx = await sessionContext(clientId);
   const [{ items: agents }, campaigns] = await Promise.all([
     appRouter.agents.list(ctx, { take: 500 } as never),
-    // Campaign filter list isn't an agent operation — keep here as a small,
+    // Campaign filter list isn't an agent operation - keep here as a small,
     // page-specific query. Could move into its own router method later.
     prisma.campaign.findMany({
       where: { clientId, isActive: true },

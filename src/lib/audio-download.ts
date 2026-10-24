@@ -143,7 +143,7 @@ function guessExtensionFromContentType(ct: string | null): string {
  * SSRF (private/loopback hosts blocked unless the host is in
  * AUDIO_DOWNLOAD_PRIVATE_HOST_ALLOWLIST).
  *
- * The returned `audioPath` is the provider's opaque key — an absolute path
+ * The returned `audioPath` is the provider's opaque key - an absolute path
  * for the local provider, an object key for S3.
  */
 export async function downloadAudioToStorage(

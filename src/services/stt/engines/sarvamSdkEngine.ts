@@ -8,7 +8,7 @@ import type { SttConfig } from "../config";
 import { applySpeakerMapping, type SarvamRawSegment } from "./sarvamEngine";
 
 // Native (no-Python) Sarvam STT engine built on the official `sarvamai` Node
-// SDK. Uses the Batch (job) API — the only Sarvam STT surface that supports
+// SDK. Uses the Batch (job) API - the only Sarvam STT surface that supports
 // diarization and audio longer than ~30s, which is what QC call recordings
 // need. The flow mirrors the legacy Python adapter exactly:
 //   createJob -> uploadFiles -> start -> waitUntilComplete -> downloadOutputs

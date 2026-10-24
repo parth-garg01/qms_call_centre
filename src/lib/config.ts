@@ -8,7 +8,7 @@ const PLACEHOLDER_SECRETS = new Set([
 ]);
 
 // dotenv keeps empty values as "" rather than dropping them, so a key like
-// `DATABASE_REPLICA_URL=""` in .env arrives as "" — which `.url()` rejects.
+// `DATABASE_REPLICA_URL=""` in .env arrives as "" - which `.url()` rejects.
 // Treat blank-or-whitespace as "unset" for optional URL fields.
 const optionalUrl = z.preprocess(
   (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
@@ -28,7 +28,7 @@ const EnvSchema = z.object({
   APP_SECRET: z
     .string()
     .min(32, "APP_SECRET must be at least 32 characters")
-    .refine((v) => !PLACEHOLDER_SECRETS.has(v), "APP_SECRET is a placeholder value — generate a real one"),
+    .refine((v) => !PLACEHOLDER_SECRETS.has(v), "APP_SECRET is a placeholder value - generate a real one"),
 
   // Legacy single-password login. Kept for back-compat; will be removed in Phase 1
   // once per-user auth lands. NOT validated as a secret here because dev/test

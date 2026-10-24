@@ -547,7 +547,7 @@ async function main() {
         ],
       },
       manualReview: {
-        reviewer: "QA — Sandra",
+        reviewer: "QA - Sandra",
         status: "COMPLETED",
         notes: "Excellent compliance. Tone was warm. Closing was crisp.",
         scorePercent: 100,
@@ -558,11 +558,11 @@ async function main() {
           type: "COACHING",
           severity: "LOW",
           title: "Strong disclosure delivery",
-          body: "Agent delivered disclosures unhurried — use this as a coaching example for the team.",
+          body: "Agent delivered disclosures unhurried - use this as a coaching example for the team.",
         },
       ],
       notes: [
-        { author: "QA — Sandra", body: "Use as gold standard for the Platinum card script.", pinned: true },
+        { author: "QA - Sandra", body: "Use as gold standard for the Platinum card script.", pinned: true },
       ],
     },
     {
@@ -658,7 +658,7 @@ async function main() {
         ],
       },
       manualReview: {
-        reviewer: "QA — Sandra",
+        reviewer: "QA - Sandra",
         status: "IN_PROGRESS",
         disposition: "Good",
         scorePercent: 92,
@@ -690,7 +690,7 @@ async function main() {
         { speaker: "CUSTOMER", text: "Hi, my app keeps crashing when I log in.", startMs: 2800, endMs: 7000 },
         { speaker: "AGENT", text: "Sorry to hear that. Can I have your username so I can take a look?", startMs: 7000, endMs: 12000 },
         { speaker: "CUSTOMER", text: "It's mike_82.", startMs: 12000, endMs: 13500 },
-        { speaker: "AGENT", text: "Thanks. I see your app version is older. Let's update it together — could you go to the app store?", startMs: 13500, endMs: 22000 },
+        { speaker: "AGENT", text: "Thanks. I see your app version is older. Let's update it together - could you go to the app store?", startMs: 13500, endMs: 22000 },
         { speaker: "CUSTOMER", text: "Done, updating now... okay, looks better.", startMs: 22000, endMs: 28000 },
         { speaker: "AGENT", text: "Great. Anything else I can help with?", startMs: 28000, endMs: 31000 },
         { speaker: "CUSTOMER", text: "No that's all.", startMs: 31000, endMs: 32500 },
@@ -736,7 +736,7 @@ async function main() {
       transcript: [
         { speaker: "AGENT", text: "Hello, David from Beetel.", startMs: 0, endMs: 2200 },
         { speaker: "CUSTOMER", text: "Hello?", startMs: 2200, endMs: 3500 },
-        { speaker: "AGENT", text: "I'm calling about a new offer—", startMs: 3500, endMs: 6500 },
+        { speaker: "AGENT", text: "I'm calling about a new offer-", startMs: 3500, endMs: 6500 },
         { speaker: "CUSTOMER", text: "(line drops)", startMs: 6500, endMs: 8000 },
       ],
       audit: {
@@ -744,7 +744,7 @@ async function main() {
         sentiment: "NEUTRAL",
         passedSlugs: [],
       },
-      manualReview: { reviewer: "QA — Sandra", status: "PENDING", disposition: "Bad" },
+      manualReview: { reviewer: "QA - Sandra", status: "PENDING", disposition: "Bad" },
     },
     {
       slug: "call-006",
@@ -762,7 +762,7 @@ async function main() {
       transcript: [
         { speaker: "AGENT", text: "Beetel retention, Naomi speaking.", startMs: 0, endMs: 3000 },
         { speaker: "CUSTOMER", text: "I want to speak to a manager right now. I've been charged twice.", startMs: 3000, endMs: 9000 },
-        { speaker: "AGENT", text: "I completely understand and I'm sorry for the trouble. Let me pull up your account — could you confirm your name and postcode?", startMs: 9000, endMs: 18000 },
+        { speaker: "AGENT", text: "I completely understand and I'm sorry for the trouble. Let me pull up your account - could you confirm your name and postcode?", startMs: 9000, endMs: 18000 },
         { speaker: "CUSTOMER", text: "Jane Brown, postcode 10010.", startMs: 18000, endMs: 22000 },
         { speaker: "AGENT", text: "Thank you Jane. I can see the duplicate charge. I'll refund it now and escalate the billing issue to a supervisor for review.", startMs: 22000, endMs: 33000 },
         { speaker: "CUSTOMER", text: "Thank you. I appreciate you sorting it out.", startMs: 33000, endMs: 36500 },
@@ -800,7 +800,7 @@ async function main() {
           type: "RISK",
           severity: "MEDIUM",
           title: "Billing system duplicate charge",
-          body: "Multiple recent calls reference duplicate billing — flag to billing engineering.",
+          body: "Multiple recent calls reference duplicate billing - flag to billing engineering.",
         },
       ],
       notes: [

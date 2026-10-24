@@ -9,7 +9,7 @@ import { generateWebhookSecret } from "@/lib/credentials";
 export { generateWebhookSecret };
 
 // Canonical event taxonomy. Add new strings here so consumers can subscribe
-// to them by name. Keep names dot-separated and stable — they're part of the
+// to them by name. Keep names dot-separated and stable - they're part of the
 // public API contract.
 export const WEBHOOK_EVENTS = [
   "call.imported",

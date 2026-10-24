@@ -87,7 +87,7 @@ function printResult(result: SttResult, modelLabel: string, elapsedMs: number): 
   const quality = result.qualityFlags?.length
     ? { flags: result.qualityFlags, ok: !result.qualityFlags.some((flag) => flag !== "heuristic_speaker_labels") }
     : evaluateSttQuality(result);
-  console.log(`OK in ${(elapsedMs / 1000).toFixed(2)}s — ${result.segments.length} segments`);
+  console.log(`OK in ${(elapsedMs / 1000).toFixed(2)}s - ${result.segments.length} segments`);
   console.log(`  model    : ${modelLabel}`);
   console.log(`  provider : ${result.provider}`);
   console.log(`  language : ${result.language}`);
@@ -129,7 +129,7 @@ async function runSingle(engine: SttEngine, audio: string): Promise<void> {
 
 async function runChain(audio: string): Promise<void> {
   const config = loadSttConfig();
-  console.log("Fixed product chain — running models in order:");
+  console.log("Fixed product chain - running models in order:");
   const chain = resolveModelChain(config);
   if (config.provider === "sarvam") {
     console.log(`  - sarvam:${config.sarvam.model}`);

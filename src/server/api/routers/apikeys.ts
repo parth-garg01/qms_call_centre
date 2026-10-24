@@ -95,7 +95,7 @@ export const apikeysRouter = {
         },
         select: ApiKeyView,
       });
-      // Plaintext returned only once — same contract as scripts/create-api-key.ts.
+      // Plaintext returned only once - same contract as scripts/create-api-key.ts.
       return { ...created, plaintextKey: plaintext };
     },
   }),

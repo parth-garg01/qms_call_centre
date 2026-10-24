@@ -51,7 +51,7 @@ async function main(): Promise<void> {
 
   const payload = Buffer.from(`ID3-fake-mp3-${"x".repeat(4096)}`);
 
-  console.log("Test A — provider.save -> materialize -> read:");
+  console.log("Test A - provider.save -> materialize -> read:");
   const stored = await getStorageProvider().save({
     buffer: payload,
     originalFileName: "sample call (1).mp3",
@@ -66,7 +66,7 @@ async function main(): Promise<void> {
   check(Buffer.compare(readFileSync(handle.path), payload) === 0, "materialized bytes match original");
   await handle.cleanup();
 
-  console.log("Test B — downloadAudioToStorage routes through the provider:");
+  console.log("Test B - downloadAudioToStorage routes through the provider:");
   const server = http.createServer((_req, res) => {
     res.writeHead(200, {
       "content-type": "audio/mpeg",

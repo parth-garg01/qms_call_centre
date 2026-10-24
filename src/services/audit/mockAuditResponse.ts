@@ -17,7 +17,7 @@ export function generateMockAuditResponse(ctx: AuditCallContext): RawAuditRespon
   const { call, parameters, transcript } = ctx;
   const fullLower = transcript.fullText.toLowerCase();
 
-  // Lightweight heuristic markers — purely so the mock looks plausible.
+  // Lightweight heuristic markers - purely so the mock looks plausible.
   const greetedWell = /(good (morning|afternoon|evening)|thank you for calling|hello)/i.test(
     transcript.fullText,
   );

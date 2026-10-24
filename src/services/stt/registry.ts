@@ -18,7 +18,7 @@ const registry = new Map<string, SttEngineFactory>();
 
 export function registerSttEngine(name: string, factory: SttEngineFactory): void {
   if (registry.has(name)) {
-    // Allow re-registration in dev (HMR) — last one wins.
+    // Allow re-registration in dev (HMR) - last one wins.
     if (process.env.NODE_ENV !== "production") {
       registry.set(name, factory);
       return;

@@ -3,7 +3,7 @@ import type { AuditCallContext } from "./types";
 export const PROMPT_VERSION = "qms-audit-prompt-v1";
 
 function fmt(seconds: number | null | undefined): string {
-  if (seconds == null || Number.isNaN(seconds)) return "—";
+  if (seconds == null || Number.isNaN(seconds)) return "-";
   const total = Math.round(seconds);
   const m = Math.floor(total / 60);
   const s = total % 60;
@@ -14,7 +14,7 @@ function fmt(seconds: number | null | undefined): string {
  * Build a compact, strict prompt for the AI auditor.
  *
  * Design rules:
- *   - The prompt must instruct the model to use BINARY scoring only —
+ *   - The prompt must instruct the model to use BINARY scoring only -
  *     awarded_score == max_score for pass, awarded_score == 0 otherwise.
  *   - Output must be strict JSON, no prose around it.
  *   - The model must list every parameter (use "not_found" if the
@@ -136,14 +136,14 @@ report. Be objective, evidence-driven, and conservative.
 
 call_id:        ${call.externalCallId ?? call.id}
 client:         ${client.name}
-campaign:       ${call.campaignName ?? "—"}
-agent:          ${call.agentName ?? "—"}
-team:           ${call.teamName ?? "—"}
+campaign:       ${call.campaignName ?? "-"}
+agent:          ${call.agentName ?? "-"}
+team:           ${call.teamName ?? "-"}
 direction:      ${call.direction}
-disposition:    ${call.disposition ?? "—"}
-language:       ${call.language ?? "—"}
-caller:         ${call.callerNumber ?? "—"}
-callee:         ${call.calleeNumber ?? "—"}
+disposition:    ${call.disposition ?? "-"}
+language:       ${call.language ?? "-"}
+caller:         ${call.callerNumber ?? "-"}
+callee:         ${call.calleeNumber ?? "-"}
 customer_name:  ${callerName}
 duration:       ${fmt(call.durationSeconds ?? null)}
 

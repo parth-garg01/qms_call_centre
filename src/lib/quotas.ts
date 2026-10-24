@@ -131,7 +131,7 @@ export async function trackQuotaUsage(
 }
 
 /**
- * Pre-check a quota WITHOUT incrementing — use this on the entry path of
+ * Pre-check a quota WITHOUT incrementing - use this on the entry path of
  * expensive operations (Excel import, batch re-audit) so we don't half-do
  * the work and then realise we're over the limit.
  *

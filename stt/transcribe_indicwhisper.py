@@ -17,7 +17,7 @@ On any failure: writes a JSON error envelope to --output and stderr, and exits
 non-zero. The Node adapter only trusts a zero exit + a parseable JSON result;
 anything else is surfaced to the UI as "local STT failed, mock still works".
 
-This script never raises uncaught exceptions to stderr — every failure path
+This script never raises uncaught exceptions to stderr - every failure path
 returns a structured error so the calling Node service can act on it.
 """
 from __future__ import annotations
@@ -114,7 +114,7 @@ def run_faster_whisper(
 ) -> dict[str, Any]:
     """Run faster-whisper against the model directory.
 
-    Raises on any error — the caller wraps with a JSON error envelope.
+    Raises on any error - the caller wraps with a JSON error envelope.
     """
     from faster_whisper import WhisperModel  # type: ignore
 
